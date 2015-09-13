@@ -1,6 +1,12 @@
+/*
+ * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+ *
+ */
+
 package consulting.germain.snakegame;
 
 import android.app.Application;
+import android.content.Context;
 import android.test.ApplicationTestCase;
 
 /**
@@ -9,5 +15,12 @@ import android.test.ApplicationTestCase;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
+    }
+
+    public void testGetContext() throws Exception {
+
+        Context context = getContext();
+        context.getClassLoader();
+
     }
 }

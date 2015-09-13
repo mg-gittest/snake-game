@@ -1,13 +1,28 @@
+/*
+ * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+ *
+ */
+
 package consulting.germain.snakegame;
+
+/*
+ * Created by mark_local on 11/09/2015.
+ * Extends the TileLocation with the ability to move the location with a SnakeDirection
+ */
 
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 /**
- * Created by mark_local on 11/09/2015.
- *Extends the TileLocation with the ability to move the location with a SnakeDirection
+ * Specialisation of Tile Location that allows the location to be moved
  */
-public class TileLocationMovable extends TileLocation{
+public class TileLocationMovable extends TileLocation {
 
+    /**
+     * ctor, delegates to super
+     * @param x
+     * @param y
+     * @param tile
+     */
     protected TileLocationMovable(int x, int y, Tile tile) {
         super(x, y, tile);
     }
@@ -33,3 +48,4 @@ public class TileLocationMovable extends TileLocation{
         }
     }
 }
+

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+ *
+ */
+
 package consulting.germain.snakegame;
 
 import android.support.v4.app.Fragment;

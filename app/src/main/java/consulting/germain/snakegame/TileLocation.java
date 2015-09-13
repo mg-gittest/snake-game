@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+ *
+ */
+
 package consulting.germain.snakegame;
 
 /**
@@ -11,7 +16,6 @@ public class TileLocation {
     protected int y;
     /** the logical tile to show at the location */
     protected Tile tile;
-
 
     protected TileLocation(int x, int y, Tile tile) {
         this.x = x;

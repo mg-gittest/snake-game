@@ -1,7 +1,14 @@
+/*
+ * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+ *
+ */
+
 package consulting.germain.snakegame;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
+
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -14,13 +21,13 @@ import consulting.germain.snakegame.enums.TileType;
 
 /**
  * Created by mark_local on 11/09/2015.
- * loads appropriate bitmap, and knows if the tile should be movable
+ * loads appropriate bitmap, and knows the type type and if the tile should be movable
  */
 public class Tile {
     private final int tileSide;
     private final TileType tileType;
     private final boolean movable;
-    private Bitmap bitmap;
+    private final Bitmap bitmap;
 
     public TileType getTileType() {
         return tileType;
@@ -32,6 +39,10 @@ public class Tile {
 
     public Bitmap getBitmap() {
         return bitmap;
+    }
+
+    public int getTileSide() {
+        return tileSide;
     }
 
     /**
@@ -50,24 +61,25 @@ public class Tile {
         int drawableId;
         switch (prize) {
             case APPLE:
-                drawableId = R.drawable.prizeApple;
+                drawableId = R.drawable.prize_apple;
                 break;
             case CAKE:
-                drawableId = R.drawable.prizeCake;
+                drawableId = R.drawable.prize_cake;
                 break;
             case CHERRY:
-                drawableId = R.drawable.prizeCherry;
+                drawableId = R.drawable.prize_cherry;
                 break;
             case SCISSORS:
-                drawableId = R.drawable.prizeScissors;
+                drawableId = R.drawable.prize_scissors;
                 break;
+
             default:
                 // a safe default, that will show logic errors
-                drawableId = R.drawable.redstar;
+                drawableId = R.drawable.red_star;
                 break;
         }
 
-        loadBitmap(context, drawableId);
+        this.bitmap = loadBitmap(context, drawableId);
     }
 
     /**
@@ -86,49 +98,49 @@ public class Tile {
         int drawableId;
         switch (body) {
             case NORTH:
-                drawableId = R.drawable.snakeBodyNorth;
+                drawableId = R.drawable.snake_body_north;
                 break;
             case EAST:
-                drawableId = R.drawable.snakeBodyEast;
+                drawableId = R.drawable.snake_body_east;
                 break;
             case SOUTH:
-                drawableId = R.drawable.snakeBodySouth;
+                drawableId = R.drawable.snake_body_south;
                 break;
             case WEST:
-                drawableId = R.drawable.snakeBodyWest;
+                drawableId = R.drawable.snake_body_west;
                 break;
             case NORTH_TO_EAST:
-                drawableId = R.drawable.snakeBodyNorthToEast;
+                drawableId = R.drawable.snake_body_north_to_east;
                 break;
             case NORTH_TO_WEST:
-                drawableId = R.drawable.snakeBodyNorthToWest;
+                drawableId = R.drawable.snake_body_north_to_west;
                 break;
             case EAST_TO_NORTH:
-                drawableId = R.drawable.snakeBodyEastToNorth;
+                drawableId = R.drawable.snake_body_east_to_north;
                 break;
             case EAST_TO_SOUTH:
-                drawableId = R.drawable.snakeBodyEastToSouth;
+                drawableId = R.drawable.snake_body_east_to_south;
                 break;
             case SOUTH_TO_EAST:
-                drawableId = R.drawable.snakeBodySouthToEast;
+                drawableId = R.drawable.snake_body_south_to_east;
                 break;
             case SOUTH_TO_WEST:
-                drawableId = R.drawable.snakeBodySouthToWest;
+                drawableId = R.drawable.snake_body_south_to_west;
                 break;
             case WEST_TO_NORTH:
-                drawableId = R.drawable.snakeBodyWestToNorth;
+                drawableId = R.drawable.snake_body_west_to_north;
                 break;
             case WEST_TO_SOUTH:
-                drawableId = R.drawable.snakeBodyWestToSouth;
+                drawableId = R.drawable.snake_body_west_to_south;
                 break;
 
             default:
                 // a safe default, that will show logic errors
-                drawableId = R.drawable.redstar;
+                drawableId = R.drawable.red_star;
                 break;
         }
 
-        loadBitmap(context, drawableId);
+        this.bitmap = loadBitmap(context, drawableId);
     }
 
     /**
@@ -142,30 +154,30 @@ public class Tile {
         validateTileSide(tileSide);
         this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_BODY;
-        this.movable = false;
+        this.movable = true;
 
         int drawableId;
         switch (head) {
             case NORTH:
-                drawableId = R.drawable.snakeHeadNorth;
+                drawableId = R.drawable.snake_head_north;
                 break;
             case EAST:
-                drawableId = R.drawable.snakeHeadEast;
+                drawableId = R.drawable.snake_head_east;
                 break;
             case SOUTH:
-                drawableId = R.drawable.snakeHeadSouth;
+                drawableId = R.drawable.snake_head_south;
                 break;
             case WEST:
-                drawableId = R.drawable.snakeHeadWest;
+                drawableId = R.drawable.snake_head_west;
                 break;
 
             default:
                 // a safe default, that will show logic errors
-                drawableId = R.drawable.redstar;
+                drawableId = R.drawable.red_star;
                 break;
         }
 
-        loadBitmap(context, drawableId);
+        this.bitmap = loadBitmap(context, drawableId);
     }
 
 
@@ -180,30 +192,30 @@ public class Tile {
         validateTileSide(tileSide);
         this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_BODY;
-        this.movable = false;
+        this.movable = true;
 
         int drawableId;
         switch (tail) {
             case NORTH:
-                drawableId = R.drawable.snakeTailNorth;
+                drawableId = R.drawable.snake_tail_north;
                 break;
             case EAST:
-                drawableId = R.drawable.snakeTailEast;
+                drawableId = R.drawable.snake_tail_east;
                 break;
             case SOUTH:
-                drawableId = R.drawable.snakeTailSouth;
+                drawableId = R.drawable.snake_tail_south;
                 break;
             case WEST:
-                drawableId = R.drawable.snakeTailWest;
+                drawableId = R.drawable.snake_tail_west;
                 break;
 
             default:
                 // a safe default, that will show logic errors
-                drawableId = R.drawable.redstar;
+                drawableId = R.drawable.red_star;
                 break;
         }
 
-        loadBitmap(context, drawableId);
+        this.bitmap = loadBitmap(context, drawableId);
     }
 
     /**
@@ -211,15 +223,17 @@ public class Tile {
      * @param context     context to use
      * @param drawableId  id of the drawable
      */
-    private void loadBitmap(Context context, int drawableId) {
+    private Bitmap loadBitmap(Context context, int drawableId) {
 
-        bitmap = Bitmap.createBitmap(tileSide, tileSide, Bitmap.Config.ARGB_8888);
+        Bitmap bm = Bitmap.createBitmap(tileSide, tileSide, Bitmap.Config.ARGB_8888);
 
         Drawable drawable = ContextCompat.getDrawable(context, drawableId);
         drawable.setBounds(0, 0, tileSide, tileSide);
 
-        Canvas canvas = new Canvas(bitmap);
+        Canvas canvas = new Canvas(bm);
         drawable.draw(canvas);
+
+        return bm;
     }
 
     /**
