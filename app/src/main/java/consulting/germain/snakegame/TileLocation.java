@@ -42,4 +42,51 @@ public class TileLocation {
         return tile;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        TileLocation that = (TileLocation) o;
+
+        return getX() == that.getX()
+                && getY() == that.getY()
+                && getTile().equals(that.getTile());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getX();
+        result = 31 * result + getY();
+        result = 31 * result + getTile().hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TileLocation{" +
+                "x=" + x +
+                ", y=" + y +
+                ", tile=" + tile.getDescription() +
+                '}';
+    }
+
+    /**
+     * compares only the location and ignored the tile at the location
+     *
+     * @param that other TileLocation to consider
+     * @return true if looation is the same
+     */
+    public boolean sameLocation(TileLocation that) {
+
+        return getX() == that.getX()
+                && getY() == that.getY();
+    }
+
+
 }

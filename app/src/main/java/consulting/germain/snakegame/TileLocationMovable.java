@@ -13,9 +13,11 @@ package consulting.germain.snakegame;
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 /**
- * Specialisation of Tile Location that allows the location to be moved
+ * Specialisation of TileLocation that allows the location to be moved
  */
 public class TileLocationMovable extends TileLocation {
+
+    static final String ERR_IMMOVABLE_TILE = "ctor given non-movable tile: ";
 
     /**
      * ctor setting relevant Tile, and the location for this instance of the tile
@@ -24,7 +26,11 @@ public class TileLocationMovable extends TileLocation {
      * @param tile tile to use
      */
     protected TileLocationMovable(int x, int y, Tile tile) {
+
         super(x, y, tile);
+        if (!tile.isMovable()) {
+            throw new IllegalArgumentException(ERR_IMMOVABLE_TILE + tile.getDescription());
+        }
     }
 
     /**
@@ -48,6 +54,11 @@ public class TileLocationMovable extends TileLocation {
             default:
                 throw new IllegalArgumentException("unexpected SnakeDirection: " + snakeDirection);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TileLocationMovable{ " + super.toString() + " }";
     }
 }
 

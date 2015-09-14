@@ -17,10 +17,11 @@ import consulting.germain.snakegame.enums.TileType;
  * expect multiple instances of most tiles
  */
 public class Tile {
-    private final int tileSide;
+    private final int    tileSide;
     private final TileType tileType;
     private final boolean movable;
-    private final int drawableId;
+    private final String description;
+    private final int    drawableId;
 
     public int getTileSide() {
         return tileSide;
@@ -32,6 +33,10 @@ public class Tile {
 
     public boolean isMovable() {
         return movable;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getDrawableId() {
@@ -49,6 +54,7 @@ public class Tile {
         this.tileSide = tileSide;
         this.tileType = TileType.PRIZE;
         this.movable = false;
+        this.description = tileType.toString() + ":" + prize.toString();
 
         switch (prize) {
             case APPLE:
@@ -83,6 +89,7 @@ public class Tile {
         this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_BODY;
         this.movable = false;
+        this.description = tileType.toString() + ":" + body.toString();
 
         switch (body) {
             case NORTH:
@@ -141,6 +148,7 @@ public class Tile {
         this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_HEAD;
         this.movable = true;
+        this.description = tileType.toString() + ":" + head.toString();
 
         switch (head) {
             case NORTH:
@@ -175,6 +183,7 @@ public class Tile {
         this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_TAIL;
         this.movable = true;
+        this.description = tileType.toString() + ":" + tail.toString();
 
         switch (tail) {
             case NORTH:
@@ -210,4 +219,43 @@ public class Tile {
             throw new IllegalArgumentException(AssertionLimits.maxTileSideFail);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Tile that = (Tile) o;
+
+        return getTileSide() == that.getTileSide()
+                && isMovable() == that.isMovable()
+                && getTileType() == that.getTileType()
+                && getDrawableId() == that.getDrawableId()
+                ;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTileSide();
+        result = 31 * result + getTileType().hashCode();
+        result = 31 * result + (isMovable() ? 1 : 0);
+        result = 31 * result + getDrawableId();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Tile{" +
+                "tileSide=" + tileSide +
+                ", tileType=" + tileType +
+                ", movable=" + movable +
+                ", drawableId=" + drawableId +
+                ", description=" + description +
+                '}';
+    }
+
 }
