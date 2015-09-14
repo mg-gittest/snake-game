@@ -11,13 +11,20 @@ package consulting.germain.snakegame;
  */
 public class TileLocation {
     /** abscissa on the field, increases down field (south) */
-    protected int x;
+    protected     int  x;
     /** ordinate on the field, increases across field (east)  */
-    protected int y;
+    protected     int  y;
     /** the logical tile to show at the location */
-    protected Tile tile;
+    private final Tile tile;
 
-    protected TileLocation(int x, int y, Tile tile) {
+    /**
+     * ctor setting relevant Tile, and the location for this instance of the tile
+     *
+     * @param x    X Coord
+     * @param y    Y Coord
+     * @param tile tile to use
+     */
+    public TileLocation(int x, int y, Tile tile) {
         this.x = x;
         this.y = y;
         this.tile = tile;

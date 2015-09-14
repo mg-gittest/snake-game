@@ -5,14 +5,6 @@
 
 package consulting.germain.snakegame;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-
-
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-
 import consulting.germain.snakegame.enums.TilePrize;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
@@ -22,6 +14,7 @@ import consulting.germain.snakegame.enums.TileType;
 /**
  * Created by mark_local on 11/09/2015.
  * holds appropriate drawableId, and knows the type type and if the tile should be movable
+ * expect multiple instances of most tiles
  */
 public class Tile {
     private final int tileSide;
@@ -204,23 +197,11 @@ public class Tile {
         }
     }
 
-    /** allows check that we have consistent tile side on all constructor calls */
-    private static int tileSideCheck = 0;
-
     /**
      * validates supplied tile side against AssertionLimits
      * @param tileSide what to validate
      */
     private void validateTileSide(int tileSide) {
-
-        if (tileSideCheck == 0) {
-            tileSideCheck = tileSide;
-        } else {
-            if (tileSide != tileSideCheck) {
-                throw new IllegalArgumentException("inconsistent tileSide. Expected: "
-                                                    + tileSideCheck + " actual: " + tileSide);
-            }
-        }
 
         if (tileSide < AssertionLimits.minTileSide) {
             throw new IllegalArgumentException(AssertionLimits.minTileSideFail);

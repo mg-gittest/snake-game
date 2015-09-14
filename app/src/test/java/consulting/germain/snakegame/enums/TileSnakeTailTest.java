@@ -5,13 +5,17 @@
 
 package consulting.germain.snakegame.enums;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mark_local on 11/09/2015.
+ * test for Tile
  */
-public class TileSnakeTailTest extends TestCase {
+public class TileSnakeTailTest {
 
+    @Test
     public void testEnumCount() throws Exception {
         int count = 0;
         for (TileSnakeTail val: TileSnakeTail.values() ) {

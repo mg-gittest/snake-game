@@ -18,10 +18,10 @@ import consulting.germain.snakegame.enums.SnakeDirection;
 public class TileLocationMovable extends TileLocation {
 
     /**
-     * ctor, delegates to super
-     * @param x
-     * @param y
-     * @param tile
+     * ctor setting relevant Tile, and the location for this instance of the tile
+     * @param x X Coord
+     * @param y Y Coord
+     * @param tile tile to use
      */
     protected TileLocationMovable(int x, int y, Tile tile) {
         super(x, y, tile);
@@ -45,6 +45,8 @@ public class TileLocationMovable extends TileLocation {
             case WEST:
                 --x;
                 break;
+            default:
+                throw new IllegalArgumentException("unexpected SnakeDirection: " + snakeDirection);
         }
     }
 }
