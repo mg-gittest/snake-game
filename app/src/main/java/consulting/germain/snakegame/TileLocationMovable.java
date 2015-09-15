@@ -57,6 +57,28 @@ public class TileLocationMovable extends TileLocation {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        TileLocationMovable that = (TileLocationMovable) other;
+
+        return getX() == that.getX()
+                && getY() == that.getY()
+                && getTile().equals(that.getTile());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "TileLocationMovable{ " + super.toString() + " }";
     }

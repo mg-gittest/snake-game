@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import consulting.germain.snakegame.enums.TilePrize;
+import consulting.germain.snakegame.enums.TileSnakeHead;
 import consulting.germain.snakegame.enums.TileSnakeTail;
 
 import static org.junit.Assert.assertEquals;
@@ -107,4 +108,24 @@ public class TileLocationTest {
 
 
     }
+
+    @Test
+    public void testMovableTileToCtor() throws Exception {
+        // need to ensure we can pass movable head and tail tiles to constructor with no problems
+
+        for (TileSnakeHead value : TileSnakeHead.values()) {
+            Tile tile = new Tile(sideExpect, value);
+            assertTrue("isMovable", tile.isMovable());
+            target = new TileLocation(xExpect, yExpect, tile);
+        }
+
+        for (TileSnakeTail value : TileSnakeTail.values()) {
+            Tile tile = new Tile(sideExpect, value);
+            assertTrue("isMovable", tile.isMovable());
+            target = new TileLocation(xExpect, yExpect, tile);
+        }
+
+    }
+
+
 }

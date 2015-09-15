@@ -22,7 +22,7 @@ public class TileLocation {
      *
      * @param x    X Coord
      * @param y    Y Coord
-     * @param tile tile to use
+     * @param tile tile to use, immovable or movable allowed
      */
     public TileLocation(int x, int y, Tile tile) {
         this.x = x;
@@ -43,15 +43,15 @@ public class TileLocation {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (other == null || getClass() != other.getClass()) {
             return false;
         }
 
-        TileLocation that = (TileLocation) o;
+        TileLocation that = (TileLocation) other;
 
         return getX() == that.getX()
                 && getY() == that.getY()
