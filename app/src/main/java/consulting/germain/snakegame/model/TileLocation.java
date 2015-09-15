@@ -23,7 +23,7 @@ public class TileLocation {
      * @param location where in the field the tile is located
      * @param tile     tile to use, immovable or movable allowed
      */
-    public TileLocation(Location location, Tile tile) {
+    public TileLocation(final Location location, final Tile tile) {
         this.location = location;
         this.tile = tile;
     }
@@ -81,11 +81,38 @@ public class TileLocation {
      * @param that other TileLocation to consider
      * @return true if looation is the same
      */
-    public boolean sameLocation(TileLocation that) {
+    public boolean sameLocation(final TileLocation that) {
 
         return getX() == that.getX()
                 && getY() == that.getY();
     }
 
+    /**
+     * compare this location to another, and return true if they differ by exactly 1 in X or Y
+     *
+     * @param that other location to consider
+     * @return true if directly adjacent, but not coincident
+     */
+    public boolean isAdjacentLocation(final TileLocation that) {
+
+        final int diffX = that.getX() - getX();
+        final int diffY = that.getY() - getY();
+
+        switch (diffX) {
+            case +1: // drop through intended
+            case -1:
+                // off by one in X, so require Y to be identical
+                return diffY == 0;
+
+            case 0:
+                // X is identical require Y to be off by one
+                return diffY == 1 || diffY == +1;
+
+            default:
+                // neither off by exactly one
+                break;
+        }
+        return false;
+    }
 
 }

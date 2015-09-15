@@ -4,6 +4,9 @@
 
 package consulting.germain.snakegame.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 /**
@@ -16,41 +19,74 @@ import consulting.germain.snakegame.enums.SnakeDirection;
 public class Snake {
 
     /**
-     * total length of the snake, measured in tiles, it has a continuos body that may have turns
+     * current movement state of the snake ends
      */
-    private int length;
+    private SnakeMovement currentMovement;
+
+    public Snake(SnakeMovement currentMovement) {
+        this.currentMovement = currentMovement;
+    }
 
     /**
-     * the direction the head is currently pointing
+     * @return the tile locations for the whole snake, head, body, tail order, not null
      */
-    private SnakeDirection headDirection;
+    public List<TileLocation> getTileLocations() {
+
+        LinkedList<TileLocation> list =
+                new LinkedList<>(currentMovement.getBodyLocations().asUnmodifiableList());
+        list.addFirst(getHeadLocation());
+        list.addLast(getTailLocation());
+
+        return list;
+    }
 
     /**
-     * the current location of the head
+     * @return the location of the snake Head
      */
-    private TileLocationMovable headLocation;
+    public TileLocation getHeadLocation() {
+        return currentMovement.getHeadLocation();
+    }
 
     /**
-     * the current location of the tail
+     * @return the location of the snake Tail
      */
-    private TileLocationMovable tailLocation;
+    public TileLocation getTailLocation() {
+        return currentMovement.getTailLocation();
+    }
 
     /**
-     * the direction the head will be pointing when current move completes
+     * @return direction of the head
      */
-    private SnakeDirection headMovedDirection;
+    public SnakeDirection getHeadDirection() {
+        return currentMovement.getHeadDirection();
+    }
 
     /**
-     * where the head will be after current move completes
+     * @return direction of the tail
      */
-    private TileLocationMovable headMovedLocation;
+    public SnakeDirection getTailDirection() {
+        return currentMovement.getTailDirection();
+    }
 
     /**
-     * where the tail will be when the current move completes
+     * ask the snake to move in a particular direction by moving its head
+     * @param direction which way to move head, body and tail will be dragged behind
      */
-    private TileLocationMovable tailMovedLocation;
+    public void move(SnakeDirection direction) {
+    }
 
     /**
-     * the string of locations for the body
+     * ask the snake to grow in a particular direction by streching its head
+     * @param direction which way to move the head as it grows, body stays in place and extends to head
      */
+    public void grow(SnakeDirection direction) {
+    }
+
+    /**
+     * @return the current length in tiles
+     */
+    public int getLength() {
+        // head + tail + body lengt
+        return currentMovement.length();
+    }
 }

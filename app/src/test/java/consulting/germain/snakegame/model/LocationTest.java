@@ -42,36 +42,36 @@ public class LocationTest {
 
     @Test
     public void testLowX() throws Exception {
-        int val = AssertionLimits.minXcoord - 1;
+        int val = Limits.minXcoord - 1;
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(AssertionLimits.minXcoordFail);
+        thrown.expectMessage(Limits.minXcoordFail);
 
         target = new Location(val, yExpect);
     }
 
     @Test
     public void testHighX() throws Exception {
-        int val = AssertionLimits.maxXcoord + 1;
+        int val = Limits.maxXcoord + 1;
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(AssertionLimits.maxXcoordFail);
+        thrown.expectMessage(Limits.maxXcoordFail);
 
         target = new Location(val, yExpect);
     }
 
     @Test
     public void testLowY() throws Exception {
-        int val = AssertionLimits.minYcoord - 1;
+        int val = Limits.minYcoord - 1;
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(AssertionLimits.minYcoordFail);
+        thrown.expectMessage(Limits.minYcoordFail);
 
         target = new Location(xExpect, val);
     }
 
     @Test
     public void testHighY() throws Exception {
-        int val = AssertionLimits.maxYcoord + 1;
+        int val = Limits.maxYcoord + 1;
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(AssertionLimits.maxYcoordFail);
+        thrown.expectMessage(Limits.maxYcoordFail);
 
         target = new Location(xExpect, val);
     }

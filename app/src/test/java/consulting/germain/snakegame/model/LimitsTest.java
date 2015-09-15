@@ -7,18 +7,18 @@ package consulting.germain.snakegame.model;
 
 import org.junit.Test;
 
-import static consulting.germain.snakegame.model.AssertionLimits.maxTileSide;
-import static consulting.germain.snakegame.model.AssertionLimits.maxTileSideFail;
-import static consulting.germain.snakegame.model.AssertionLimits.minTileSide;
-import static consulting.germain.snakegame.model.AssertionLimits.minTileSideFail;
+import static consulting.germain.snakegame.model.Limits.maxTileSide;
+import static consulting.germain.snakegame.model.Limits.maxTileSideFail;
+import static consulting.germain.snakegame.model.Limits.minTileSide;
+import static consulting.germain.snakegame.model.Limits.minTileSideFail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by mark_local on 11/09/2015.
- * Exercise the AssertionLimits class
+ * Exercise the Limits class
  */
-public class AssertionLimitsTest {
+public class LimitsTest {
 
     @Test
     public void testMinTileSide() throws Exception {

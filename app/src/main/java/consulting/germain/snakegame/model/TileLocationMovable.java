@@ -25,7 +25,7 @@ public class TileLocationMovable extends TileLocation {
      * @param location where in the field the tile is located
      * @param tile     tile to use, must be movable
      */
-    protected TileLocationMovable(Location location, Tile tile) {
+    public TileLocationMovable(final Location location, final Tile tile) {
         super(location, tile);
         if (!tile.isMovable()) {
             throw new IllegalArgumentException(ERR_IMMOVABLE_TILE + tile.getDescription());
@@ -36,27 +36,11 @@ public class TileLocationMovable extends TileLocation {
      * Move the tile location as requested, location class validates against internal not field limits
      * @param snakeDirection the relevant direction in which to move
      */
-    public void move(SnakeDirection snakeDirection) {
-        switch (snakeDirection) {
-            case NORTH:
-                location = new Location(location.getX(), location.getY() - 1);
-                break;
-
-            case EAST:
-                location = new Location(location.getX() + 1, location.getY());
-                break;
-
-            case SOUTH:
-                location = new Location(location.getX(), location.getY() + 1);
-                break;
-
-            case WEST:
-                location = new Location(location.getX() - 1, location.getY());
-                break;
-
-            default:
-                throw new IllegalArgumentException("unexpected SnakeDirection: " + snakeDirection);
-        }
+    public void move(final SnakeDirection snakeDirection) {
+        // set the number of moves we make
+        final int numberMoves = 1;
+        location =
+                location.getProjectedLocation(numberMoves, snakeDirection, Settings.edgeRollBehaviour);
     }
 
     @Override

@@ -208,16 +208,16 @@ public class Tile {
     }
 
     /**
-     * validates supplied tile side against AssertionLimits
+     * validates supplied tile side against Limits
      * @param tileSide what to validate
      */
     private void validateTileSide(int tileSide) {
 
-        if (tileSide < AssertionLimits.minTileSide) {
-            throw new IllegalArgumentException(AssertionLimits.minTileSideFail);
+        if (tileSide < Limits.minTileSide) {
+            throw new IllegalArgumentException(Limits.minTileSideFail);
         }
-        if (tileSide > AssertionLimits.maxTileSide) {
-            throw new IllegalArgumentException(AssertionLimits.maxTileSideFail);
+        if (tileSide > Limits.maxTileSide) {
+            throw new IllegalArgumentException(Limits.maxTileSideFail);
         }
     }
 

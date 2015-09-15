@@ -113,8 +113,8 @@ public class TileTest {
     @Test
     public void testBadSideMin() throws Exception {
 
-        final int badSide = AssertionLimits.minTileSide - 1;
-        String message = AssertionLimits.minTileSideFail;
+        final int badSide = Limits.minTileSide - 1;
+        String message = Limits.minTileSideFail;
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage(message);
@@ -124,8 +124,8 @@ public class TileTest {
     @Test
     public void testBadSideMax() throws Exception {
 
-        final int badSide = AssertionLimits.maxTileSide + 1;
-        String message = AssertionLimits.maxTileSideFail;
+        final int badSide = Limits.maxTileSide + 1;
+        String message = Limits.maxTileSideFail;
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage(message);
