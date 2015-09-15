@@ -26,6 +26,7 @@ public class TileLocationTest {
     private TileLocation target;
     private int          xExpect;
     private int          yExpect;
+    private Location locationExpect;
     private Tile         tileExpect;
     private int          sideExpect;
 
@@ -33,10 +34,11 @@ public class TileLocationTest {
     public void setUp() throws Exception {
         xExpect = 120;
         yExpect = 130;
+        locationExpect = new Location(xExpect, yExpect);
         sideExpect = 30;
 
         tileExpect = new Tile(sideExpect, TilePrize.CAKE);
-        target = new TileLocation(xExpect, yExpect, tileExpect);
+        target = new TileLocation(locationExpect, tileExpect);
     }
 
     @Test

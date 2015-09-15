@@ -23,7 +23,7 @@ public class TileLocationMovable extends TileLocation {
      * ctor setting relevant Tile, and the location for this instance of the tile
      * @param x X Coord
      * @param y Y Coord
-     * @param tile tile to use
+     * @param tile tile to use, must be movable
      */
     protected TileLocationMovable(int x, int y, Tile tile) {
 
@@ -34,22 +34,36 @@ public class TileLocationMovable extends TileLocation {
     }
 
     /**
-     * Move the tile location as requested, makes no attempt to validate the new location
+     * ctor setting relevant Tile, and the location for this instance of the tile
+     *
+     * @param location where in the field the tile is located
+     * @param tile     tile to use, must be movable
+     */
+    protected TileLocationMovable(Location location, Tile tile) {
+
+        super(location, tile);
+        if (!tile.isMovable()) {
+            throw new IllegalArgumentException(ERR_IMMOVABLE_TILE + tile.getDescription());
+        }
+    }
+
+    /**
+     * Move the tile location as requested, location class validates against internal not field limits
      * @param snakeDirection the relevant direction in which to move
      */
     public void move(SnakeDirection snakeDirection) {
         switch (snakeDirection) {
             case NORTH:
-                --y;
+                location = new Location(location.getX(), location.getY() - 1);
                 break;
             case EAST:
-                ++x;
+                location = new Location(location.getX() + 1, location.getY());
                 break;
             case SOUTH:
-                ++y;
+                location = new Location(location.getX(), location.getY() + 1);
                 break;
             case WEST:
-                --x;
+                location = new Location(location.getX() - 1, location.getY());
                 break;
             default:
                 throw new IllegalArgumentException("unexpected SnakeDirection: " + snakeDirection);

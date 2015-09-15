@@ -10,12 +10,12 @@ package consulting.germain.snakegame.model;
  * A combination of a logical tile and a pair of coordinates for where the tile should be drawn
  */
 public class TileLocation {
-    /** abscissa on the field, increases down field (south) */
-    protected     int  x;
-    /** ordinate on the field, increases across field (east)  */
-    protected     int  y;
+    /**
+     * location of the tile
+     */
+    protected     Location location;
     /** the logical tile to show at the location */
-    private final Tile tile;
+    private final Tile     tile;
 
     /**
      * ctor setting relevant Tile, and the location for this instance of the tile
@@ -25,17 +25,30 @@ public class TileLocation {
      * @param tile tile to use, immovable or movable allowed
      */
     public TileLocation(int x, int y, Tile tile) {
-        this.x = x;
-        this.y = y;
+        this(new Location(x, y), tile);
+    }
+
+    /**
+     * ctor taking location and tile
+     *
+     * @param location where in the field the tile is located
+     * @param tile     tile to use, immovable or movable allowed
+     */
+    public TileLocation(Location location, Tile tile) {
+        this.location = location;
         this.tile = tile;
     }
 
     public int getX() {
-        return x;
+        return location.getX();
     }
 
     public int getY() {
-        return y;
+        return location.getY();
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public Tile getTile() {
@@ -53,16 +66,14 @@ public class TileLocation {
 
         TileLocation that = (TileLocation) other;
 
-        return getX() == that.getX()
-                && getY() == that.getY()
+        return getLocation() == that.getLocation()
                 && getTile().equals(that.getTile());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getX();
-        result = 31 * result + getY();
+        int result = location.hashCode();
         result = 31 * result + getTile().hashCode();
         return result;
     }
@@ -70,8 +81,7 @@ public class TileLocation {
     @Override
     public String toString() {
         return "TileLocation{" +
-                "x=" + x +
-                ", y=" + y +
+                "location=" + location +
                 ", tile=" + tile.getDescription() +
                 '}';
     }
