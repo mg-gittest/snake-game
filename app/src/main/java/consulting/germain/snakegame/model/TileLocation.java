@@ -18,17 +18,6 @@ public class TileLocation {
     private final Tile     tile;
 
     /**
-     * ctor setting relevant Tile, and the location for this instance of the tile
-     *
-     * @param x    X Coord
-     * @param y    Y Coord
-     * @param tile tile to use, immovable or movable allowed
-     */
-    public TileLocation(int x, int y, Tile tile) {
-        this(new Location(x, y), tile);
-    }
-
-    /**
      * ctor taking location and tile
      *
      * @param location where in the field the tile is located

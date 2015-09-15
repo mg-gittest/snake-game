@@ -52,6 +52,11 @@ public class TileLocationTest {
     }
 
     @Test
+    public void testGetLocation() throws Exception {
+        assertEquals("location", locationExpect, target.getLocation());
+    }
+
+    @Test
     public void testGetTile() throws Exception {
         Tile tileActual = target.getTile();
         assertEquals("Tile", tileExpect, tileActual);
@@ -62,10 +67,11 @@ public class TileLocationTest {
     @Test
     public void testSameLocationSameTile() throws Exception {
 
-        TileLocation sameXsameY = new TileLocation(xExpect, yExpect, tileExpect);
-        TileLocation sameXdiffY = new TileLocation(xExpect, yExpect + 1, tileExpect);
-        TileLocation diffXsameY = new TileLocation(xExpect + 1, yExpect, tileExpect);
-        TileLocation diffXdiffY = new TileLocation(xExpect + 1, yExpect + 1, tileExpect);
+        TileLocation sameXsameY = new TileLocation(new Location(xExpect, yExpect), tileExpect);
+        TileLocation sameXdiffY = new TileLocation(new Location(xExpect, yExpect + 1), tileExpect);
+        TileLocation diffXsameY = new TileLocation(new Location(xExpect + 1, yExpect), tileExpect);
+        TileLocation diffXdiffY =
+                new TileLocation(new Location(xExpect + 1, yExpect + 1), tileExpect);
 
         assertTrue("target", target.sameLocation(target));
         assertTrue("sameXsameY", target.sameLocation(sameXsameY));
@@ -79,10 +85,11 @@ public class TileLocationTest {
     public void testSameLocationDifferentTile() throws Exception {
 
         Tile tileCake = new Tile(sideExpect, TilePrize.APPLE);
-        TileLocation sameXsameY = new TileLocation(xExpect, yExpect, tileCake);
-        TileLocation sameXdiffY = new TileLocation(xExpect, yExpect + 1, tileCake);
-        TileLocation diffXsameY = new TileLocation(xExpect + 1, yExpect, tileCake);
-        TileLocation diffXdiffY = new TileLocation(xExpect + 1, yExpect + 1, tileCake);
+        TileLocation sameXsameY = new TileLocation(new Location(xExpect, yExpect), tileCake);
+        TileLocation sameXdiffY = new TileLocation(new Location(xExpect, yExpect + 1), tileCake);
+        TileLocation diffXsameY = new TileLocation(new Location(xExpect + 1, yExpect), tileCake);
+        TileLocation diffXdiffY =
+                new TileLocation(new Location(xExpect + 1, yExpect + 1), tileCake);
 
         assertTrue("sameXsameY", target.sameLocation(sameXsameY));
 
@@ -95,13 +102,14 @@ public class TileLocationTest {
     public void testSameLocationAgainstMovable() throws Exception {
 
         Tile tileSnakeTail = new Tile(sideExpect, TileSnakeTail.SOUTH);
-        TileLocationMovable sameXsameY = new TileLocationMovable(xExpect, yExpect, tileSnakeTail);
+        TileLocationMovable sameXsameY =
+                new TileLocationMovable(new Location(xExpect, yExpect), tileSnakeTail);
         TileLocationMovable sameXdiffY =
-                new TileLocationMovable(xExpect, yExpect + 1, tileSnakeTail);
+                new TileLocationMovable(new Location(xExpect, yExpect + 1), tileSnakeTail);
         TileLocationMovable diffXsameY =
-                new TileLocationMovable(xExpect + 1, yExpect, tileSnakeTail);
+                new TileLocationMovable(new Location(xExpect + 1, yExpect), tileSnakeTail);
         TileLocationMovable diffXdiffY =
-                new TileLocationMovable(xExpect + 1, yExpect + 1, tileSnakeTail);
+                new TileLocationMovable(new Location(xExpect + 1, yExpect + 1), tileSnakeTail);
 
         assertTrue("target", target.sameLocation(target));
         assertTrue("sameXsameY", target.sameLocation(sameXsameY));
@@ -120,13 +128,13 @@ public class TileLocationTest {
         for (TileSnakeHead value : TileSnakeHead.values()) {
             Tile tile = new Tile(sideExpect, value);
             assertTrue("isMovable", tile.isMovable());
-            target = new TileLocation(xExpect, yExpect, tile);
+            target = new TileLocation(new Location(xExpect, yExpect), tile);
         }
 
         for (TileSnakeTail value : TileSnakeTail.values()) {
             Tile tile = new Tile(sideExpect, value);
             assertTrue("isMovable", tile.isMovable());
-            target = new TileLocation(xExpect, yExpect, tile);
+            target = new TileLocation(new Location(xExpect, yExpect), tile);
         }
 
     }

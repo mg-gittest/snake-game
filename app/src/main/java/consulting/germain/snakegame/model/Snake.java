@@ -26,7 +26,31 @@ public class Snake {
     private SnakeDirection headDirection;
 
     /**
-     * the location of the head
+     * the current location of the head
      */
-    private Location headLocation;
+    private TileLocationMovable headLocation;
+
+    /**
+     * the current location of the tail
+     */
+    private TileLocationMovable tailLocation;
+
+    /**
+     * the direction the head will be pointing when current move completes
+     */
+    private SnakeDirection headMovedDirection;
+
+    /**
+     * where the head will be after current move completes
+     */
+    private TileLocationMovable headMovedLocation;
+
+    /**
+     * where the tail will be when the current move completes
+     */
+    private TileLocationMovable tailMovedLocation;
+
+    /**
+     * the string of locations for the body
+     */
 }
