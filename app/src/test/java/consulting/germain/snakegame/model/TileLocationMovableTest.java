@@ -2,13 +2,15 @@
  * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
  */
 
-package consulting.germain.snakegame;
+package consulting.germain.snakegame.model;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TilePrize;
 import consulting.germain.snakegame.enums.TileSnakeHead;
@@ -56,7 +58,7 @@ public class TileLocationMovableTest {
         Tile tileActual = target.getTile();
         assertEquals("Tile", tileExpect, tileActual);
 
-        assertEquals("ID", R.drawable.snake_head_north, tileActual.getDrawableId());
+        Assert.assertEquals("ID", R.drawable.snake_head_north, tileActual.getDrawableId());
     }
 
     @Test

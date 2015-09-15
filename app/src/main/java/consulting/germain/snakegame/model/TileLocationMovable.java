@@ -3,7 +3,7 @@
  *
  */
 
-package consulting.germain.snakegame;
+package consulting.germain.snakegame.model;
 
 /*
  * Created by mark_local on 11/09/2015.

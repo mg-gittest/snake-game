@@ -3,14 +3,14 @@
  *
  */
 
-package consulting.germain.snakegame;
+package consulting.germain.snakegame.model;
 
 import org.junit.Test;
 
-import static consulting.germain.snakegame.AssertionLimits.maxTileSide;
-import static consulting.germain.snakegame.AssertionLimits.maxTileSideFail;
-import static consulting.germain.snakegame.AssertionLimits.minTileSide;
-import static consulting.germain.snakegame.AssertionLimits.minTileSideFail;
+import static consulting.germain.snakegame.model.AssertionLimits.maxTileSide;
+import static consulting.germain.snakegame.model.AssertionLimits.maxTileSideFail;
+import static consulting.germain.snakegame.model.AssertionLimits.minTileSide;
+import static consulting.germain.snakegame.model.AssertionLimits.minTileSideFail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

@@ -2,13 +2,14 @@
  * Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
  */
 
-package consulting.germain.snakegame;
+package consulting.germain.snakegame.model;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.enums.TilePrize;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;

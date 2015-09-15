@@ -3,8 +3,9 @@
  *
  */
 
-package consulting.germain.snakegame;
+package consulting.germain.snakegame.model;
 
+import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.enums.TilePrize;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
