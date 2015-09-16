@@ -6,6 +6,7 @@
 package consulting.germain.snakegame.model;
 
 import consulting.germain.snakegame.R;
+import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TilePrize;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
@@ -23,6 +24,8 @@ public class Tile {
     private final boolean movable;
     private final String description;
     private final int    drawableId;
+    private final SnakeDirection directionTo;
+    private final SnakeDirection directionFrom;
 
     public int getTileSide() {
         return tileSide;
@@ -44,6 +47,14 @@ public class Tile {
         return drawableId;
     }
 
+    public SnakeDirection getDirectionTo() {
+        return directionTo;
+    }
+
+    public SnakeDirection getDirectionFrom() {
+        return directionFrom;
+    }
+
     /**
      * ctor for a prize tile
      * @param tileSide the size of one side of a square tile
@@ -56,6 +67,8 @@ public class Tile {
         this.tileType = TileType.PRIZE;
         this.movable = false;
         this.description = tileType.toString() + ":" + prize.toString();
+        this.directionFrom =
+                this.directionTo = SnakeDirection.NORTH; // meaningless here, but need something
 
         switch (prize) {
             case APPLE:
@@ -95,44 +108,66 @@ public class Tile {
         switch (body) {
             case NORTH:
                 this.drawableId = R.drawable.snake_body_north;
+                this.directionFrom = this.directionTo = SnakeDirection.NORTH;
                 break;
             case EAST:
                 this.drawableId = R.drawable.snake_body_east;
+                this.directionFrom = this.directionTo = SnakeDirection.EAST;
                 break;
             case SOUTH:
                 this.drawableId = R.drawable.snake_body_south;
+                this.directionFrom = this.directionTo = SnakeDirection.SOUTH;
                 break;
             case WEST:
                 this.drawableId = R.drawable.snake_body_west;
+                this.directionFrom = this.directionTo = SnakeDirection.WEST;
                 break;
             case NORTH_TO_EAST:
                 this.drawableId = R.drawable.snake_body_north_to_east;
+                this.directionFrom = SnakeDirection.NORTH;
+                this.directionTo = SnakeDirection.EAST;
                 break;
             case NORTH_TO_WEST:
                 this.drawableId = R.drawable.snake_body_north_to_west;
+                this.directionFrom = SnakeDirection.NORTH;
+                this.directionTo = SnakeDirection.WEST;
                 break;
             case EAST_TO_NORTH:
                 this.drawableId = R.drawable.snake_body_east_to_north;
+                this.directionFrom = SnakeDirection.EAST;
+                this.directionTo = SnakeDirection.NORTH;
                 break;
             case EAST_TO_SOUTH:
                 this.drawableId = R.drawable.snake_body_east_to_south;
+                this.directionFrom = SnakeDirection.EAST;
+                this.directionTo = SnakeDirection.SOUTH;
                 break;
             case SOUTH_TO_EAST:
                 this.drawableId = R.drawable.snake_body_south_to_east;
+                this.directionFrom = SnakeDirection.SOUTH;
+                this.directionTo = SnakeDirection.EAST;
                 break;
             case SOUTH_TO_WEST:
                 this.drawableId = R.drawable.snake_body_south_to_west;
+                this.directionFrom = SnakeDirection.SOUTH;
+                this.directionTo = SnakeDirection.WEST;
                 break;
             case WEST_TO_NORTH:
                 this.drawableId = R.drawable.snake_body_west_to_north;
+                this.directionFrom = SnakeDirection.WEST;
+                this.directionTo = SnakeDirection.NORTH;
                 break;
             case WEST_TO_SOUTH:
                 this.drawableId = R.drawable.snake_body_west_to_south;
+                this.directionFrom = SnakeDirection.WEST;
+                this.directionTo = SnakeDirection.SOUTH;
                 break;
 
             default:
                 // a safe default, that will show logic errors
                 this.drawableId = R.drawable.red_star;
+                this.directionFrom = this.directionTo =
+                        SnakeDirection.NORTH; // meaningless here, but need something
                 break;
         }
 
@@ -154,20 +189,26 @@ public class Tile {
         switch (head) {
             case NORTH:
                 this.drawableId = R.drawable.snake_head_north;
+                this.directionFrom = this.directionTo = SnakeDirection.NORTH;
                 break;
             case EAST:
                 this.drawableId = R.drawable.snake_head_east;
+                this.directionFrom = this.directionTo = SnakeDirection.EAST;
                 break;
             case SOUTH:
                 this.drawableId = R.drawable.snake_head_south;
+                this.directionFrom = this.directionTo = SnakeDirection.SOUTH;
                 break;
             case WEST:
                 this.drawableId = R.drawable.snake_head_west;
+                this.directionFrom = this.directionTo = SnakeDirection.WEST;
                 break;
 
             default:
                 // a safe default, that will show logic errors
                 this.drawableId = R.drawable.red_star;
+                this.directionFrom = this.directionTo =
+                        SnakeDirection.NORTH; // meaningless here, but need something
                 break;
         }
     }
@@ -189,20 +230,26 @@ public class Tile {
         switch (tail) {
             case NORTH:
                 this.drawableId = R.drawable.snake_tail_north;
+                this.directionFrom = this.directionTo = SnakeDirection.NORTH;
                 break;
             case EAST:
                 this.drawableId = R.drawable.snake_tail_east;
+                this.directionFrom = this.directionTo = SnakeDirection.EAST;
                 break;
             case SOUTH:
                 this.drawableId = R.drawable.snake_tail_south;
+                this.directionFrom = this.directionTo = SnakeDirection.SOUTH;
                 break;
             case WEST:
                 this.drawableId = R.drawable.snake_tail_west;
+                this.directionFrom = this.directionTo = SnakeDirection.WEST;
                 break;
 
             default:
                 // a safe default, that will show logic errors
                 this.drawableId = R.drawable.red_star;
+                this.directionFrom = this.directionTo =
+                        SnakeDirection.NORTH; // meaningless here, but need something
                 break;
         }
     }

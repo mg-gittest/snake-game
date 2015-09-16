@@ -83,8 +83,7 @@ public class TileLocation {
      */
     public boolean sameLocation(final TileLocation that) {
 
-        return getX() == that.getX()
-                && getY() == that.getY();
+        return getLocation().equals(that.getLocation());
     }
 
     /**
@@ -106,7 +105,7 @@ public class TileLocation {
 
             case 0:
                 // X is identical require Y to be off by one
-                return diffY == 1 || diffY == +1;
+                return diffY == 1 || diffY == -1;
 
             default:
                 // neither off by exactly one

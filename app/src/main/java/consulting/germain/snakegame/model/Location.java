@@ -21,7 +21,12 @@ public class Location {
     private final int x;
     private final int y;
 
-
+    /**
+     * ctor from X/Y coordinates
+     *
+     * @param x X coord
+     * @param y Y coord
+     */
     public Location(int x, int y) {
         if (x < Limits.minXcoord) {
             throw new IllegalArgumentException(Limits.minXcoordFail);
@@ -39,10 +44,15 @@ public class Location {
         this.y = y;
     }
 
-    public Location(Location location) {
+    /**
+     * copy ctor
+     *
+     * @param otherLocation what to copy
+     */
+    public Location(Location otherLocation) {
         // no need to validate as previous ctor will have done that for us
-        x = location.x;
-        y = location.y;
+        x = otherLocation.x;
+        y = otherLocation.y;
     }
 
     /**
@@ -93,8 +103,8 @@ public class Location {
      * calculate a new Y coordinate given the number of moves to make, and roll behaviour
      *
      * @param numberMoves       how many tiles to move, restricted to maxMoveY
-     * @param edgeRollBehaviour
-     * @return
+     * @param edgeRollBehaviour how to roll movement at edge of field
+     * @return new Y for given move
      */
     private int calcNewY(int numberMoves, EdgeRollBehaviour edgeRollBehaviour) {
         int newY = y + numberMoves;
@@ -142,8 +152,8 @@ public class Location {
      * calculate a new X coordinate given the number of moves to make, and roll behaviour
      *
      * @param numberMoves       how many tiles to move, restricted to maxMoveY
-     * @param edgeRollBehaviour
-     * @return
+     * @param edgeRollBehaviour how to roll movement at edge of field
+     * @return new X for given move
      */
     private int calcNewX(int numberMoves, EdgeRollBehaviour edgeRollBehaviour) {
         int newX = x + numberMoves;

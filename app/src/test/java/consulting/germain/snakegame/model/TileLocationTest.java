@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.enums.TilePrize;
-import consulting.germain.snakegame.enums.TileSnakeHead;
-import consulting.germain.snakegame.enums.TileSnakeTail;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -99,45 +97,33 @@ public class TileLocationTest {
     }
 
     @Test
-    public void testSameLocationAgainstMovable() throws Exception {
+    public void testAdjacentLocation() throws Exception {
+        Tile tileCake = new Tile(sideExpect, TilePrize.APPLE);
+        TileLocation sameXsameY = new TileLocation(new Location(xExpect, yExpect), tileCake);
+        TileLocation sameXdiffY1 = new TileLocation(new Location(xExpect, yExpect + 1), tileCake);
+        TileLocation sameXdiffY2 = new TileLocation(new Location(xExpect, yExpect - 1), tileCake);
+        TileLocation diffXsameY1 = new TileLocation(new Location(xExpect + 1, yExpect), tileCake);
+        TileLocation diffXsameY2 = new TileLocation(new Location(xExpect - 1, yExpect), tileCake);
+        TileLocation diffXdiffY1 =
+                new TileLocation(new Location(xExpect + 1, yExpect + 1), tileCake);
+        TileLocation diffXdiffY2 =
+                new TileLocation(new Location(xExpect + 1, yExpect - 1), tileCake);
+        TileLocation diffXdiffY3 =
+                new TileLocation(new Location(xExpect - 1, yExpect + 1), tileCake);
+        TileLocation diffXdiffY4 =
+                new TileLocation(new Location(xExpect - 1, yExpect - 1), tileCake);
 
-        Tile tileSnakeTail = new Tile(sideExpect, TileSnakeTail.SOUTH);
-        TileLocationMovable sameXsameY =
-                new TileLocationMovable(new Location(xExpect, yExpect), tileSnakeTail);
-        TileLocationMovable sameXdiffY =
-                new TileLocationMovable(new Location(xExpect, yExpect + 1), tileSnakeTail);
-        TileLocationMovable diffXsameY =
-                new TileLocationMovable(new Location(xExpect + 1, yExpect), tileSnakeTail);
-        TileLocationMovable diffXdiffY =
-                new TileLocationMovable(new Location(xExpect + 1, yExpect + 1), tileSnakeTail);
+        assertFalse("sameXsameY", target.isAdjacentLocation(sameXsameY));
+        assertFalse("diffXdiffY1", target.isAdjacentLocation(diffXdiffY1));
+        assertFalse("diffXdiffY2", target.isAdjacentLocation(diffXdiffY2));
+        assertFalse("diffXdiffY3", target.isAdjacentLocation(diffXdiffY3));
+        assertFalse("diffXdiffY4", target.isAdjacentLocation(diffXdiffY4));
 
-        assertTrue("target", target.sameLocation(target));
-        assertTrue("sameXsameY", target.sameLocation(sameXsameY));
-
-        assertFalse("sameXdiffY", target.sameLocation(sameXdiffY));
-        assertFalse("diffXsameY", target.sameLocation(diffXsameY));
-        assertFalse("diffXdiffY", target.sameLocation(diffXdiffY));
+        assertTrue("sameXdiffY1", target.isAdjacentLocation(sameXdiffY1));
+        assertTrue("sameXdiffY2", target.isAdjacentLocation(sameXdiffY2));
+        assertTrue("diffXsameY1", target.isAdjacentLocation(diffXsameY1));
+        assertTrue("diffXsameY2", target.isAdjacentLocation(diffXsameY2));
 
 
     }
-
-    @Test
-    public void testMovableTileToCtor() throws Exception {
-        // need to ensure we can pass movable head and tail tiles to constructor with no problems
-
-        for (TileSnakeHead value : TileSnakeHead.values()) {
-            Tile tile = new Tile(sideExpect, value);
-            assertTrue("isMovable", tile.isMovable());
-            target = new TileLocation(new Location(xExpect, yExpect), tile);
-        }
-
-        for (TileSnakeTail value : TileSnakeTail.values()) {
-            Tile tile = new Tile(sideExpect, value);
-            assertTrue("isMovable", tile.isMovable());
-            target = new TileLocation(new Location(xExpect, yExpect), tile);
-        }
-
-    }
-
-
 }

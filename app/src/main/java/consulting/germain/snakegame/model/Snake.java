@@ -4,9 +4,6 @@
 
 package consulting.germain.snakegame.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 /**
@@ -21,51 +18,45 @@ public class Snake {
     /**
      * current movement state of the snake ends
      */
-    private SnakeMovement currentMovement;
+    private SnakeState snakeState;
 
-    public Snake(SnakeMovement currentMovement) {
-        this.currentMovement = currentMovement;
+    public Snake(SnakeState startState) {
+        this.snakeState = startState;
     }
 
     /**
-     * @return the tile locations for the whole snake, head, body, tail order, not null
+     * @return current snake state
      */
-    public List<TileLocation> getTileLocations() {
-
-        LinkedList<TileLocation> list =
-                new LinkedList<>(currentMovement.getBodyLocations().asUnmodifiableList());
-        list.addFirst(getHeadLocation());
-        list.addLast(getTailLocation());
-
-        return list;
+    public SnakeState getSnakeState() {
+        return snakeState;
     }
 
     /**
      * @return the location of the snake Head
      */
     public TileLocation getHeadLocation() {
-        return currentMovement.getHeadLocation();
+        return snakeState.getHeadLocation();
     }
 
     /**
      * @return the location of the snake Tail
      */
     public TileLocation getTailLocation() {
-        return currentMovement.getTailLocation();
+        return snakeState.getTailLocation();
     }
 
     /**
      * @return direction of the head
      */
     public SnakeDirection getHeadDirection() {
-        return currentMovement.getHeadDirection();
+        return snakeState.getHeadDirection();
     }
 
     /**
      * @return direction of the tail
      */
     public SnakeDirection getTailDirection() {
-        return currentMovement.getTailDirection();
+        return snakeState.getTailDirection();
     }
 
     /**
@@ -87,6 +78,6 @@ public class Snake {
      */
     public int getLength() {
         // head + tail + body lengt
-        return currentMovement.length();
+        return snakeState.length();
     }
 }

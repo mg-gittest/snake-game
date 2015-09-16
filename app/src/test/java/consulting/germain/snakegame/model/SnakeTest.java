@@ -4,6 +4,7 @@
 
 package consulting.germain.snakegame.model;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
@@ -12,6 +13,15 @@ import static org.junit.Assert.fail;
  * Created by mark_local on 15/09/2015.
  */
 public class SnakeTest {
+
+    private Snake target;
+
+    @Before
+    public void setup() {
+        SnakeState snakeState = SnakeStateFactory.createDefault();
+        target = new Snake(snakeState);
+    }
+
 
     @Test
     public void testGetTileLocations() throws Exception {
