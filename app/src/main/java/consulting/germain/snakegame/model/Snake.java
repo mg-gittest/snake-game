@@ -35,14 +35,14 @@ public class Snake {
      * @return the location of the snake Head
      */
     public TileLocation getHeadLocation() {
-        return snakeState.getHeadLocation();
+        return snakeState.getHeadTileLocation();
     }
 
     /**
      * @return the location of the snake Tail
      */
     public TileLocation getTailLocation() {
-        return snakeState.getTailLocation();
+        return snakeState.getTailTileLocation();
     }
 
     /**
@@ -79,5 +79,12 @@ public class Snake {
     public int getLength() {
         // head + tail + body lengt
         return snakeState.length();
+    }
+
+    /**
+     * @return the underlying list of tile locations
+     */
+    public TileLocationList getTileLocations() {
+        return snakeState.getTileLocations();
     }
 }

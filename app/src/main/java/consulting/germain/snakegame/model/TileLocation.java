@@ -13,7 +13,7 @@ public class TileLocation {
     /**
      * location of the tile
      */
-    protected     Location location;
+    private final Location location;
     /** the logical tile to show at the location */
     private final Tile     tile;
 

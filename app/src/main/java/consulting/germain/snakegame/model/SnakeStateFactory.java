@@ -4,8 +4,6 @@
 
 package consulting.germain.snakegame.model;
 
-import java.util.LinkedList;
-
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
 import consulting.germain.snakegame.enums.TileSnakeTail;
@@ -39,11 +37,11 @@ public class SnakeStateFactory {
 
     public static SnakeState createDefault() {
 
-        LinkedList<TileLocation> bodyLocations = new LinkedList<>();
+        TileLocationList bodyLocations = new TileLocationList();
         bodyLocations.addFirst(headTileLocationDefault);
 
         for (int idx = 1; idx <= bodyTileCountDefault; ++idx) {
-            Location bodyLocation = new Location(tailDefaultX + idx, tailDefaultY);
+            Location bodyLocation = new Location(headDefaultX - idx, headDefaultY);
             TileLocation bodyTileLocation = new TileLocation(bodyLocation, bodyTileDefault);
             bodyLocations.addLast(bodyTileLocation);
         }
