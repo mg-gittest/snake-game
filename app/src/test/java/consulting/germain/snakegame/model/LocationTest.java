@@ -9,7 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import consulting.germain.snakegame.enums.EdgeRollBehaviour;
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 import static org.junit.Assert.assertEquals;
@@ -20,12 +19,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class LocationTest {
 
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
     private final int xExpect = 10;
     private final int yExpect = 15;
-    private SnakeDirection    snakeDirection    = SnakeDirection.SOUTH;
-    private EdgeRollBehaviour edgeRollBehaviour = EdgeRollBehaviour.ROLL_BLOCKED;
-
     Location target;
+    private SnakeDirection snakeDirection = SnakeDirection.SOUTH;
 
     @Before
     public void setUp() throws Exception {
@@ -41,9 +40,6 @@ public class LocationTest {
     public void testGetY() throws Exception {
         assertEquals("Y", yExpect, target.getY());
     }
-
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testLowX() throws Exception {
@@ -87,10 +83,10 @@ public class LocationTest {
         Location expected = target;
 
         int numMoves = 0;
-        assertEquals(expected, target.getProjectedLocation(numMoves, snakeDirection, edgeRollBehaviour));
+        assertEquals(expected, target.getProjectedLocation(numMoves, snakeDirection));
 
         numMoves = -1;
-        assertEquals(expected, target.getProjectedLocation(numMoves, snakeDirection, edgeRollBehaviour));
+        assertEquals(expected, target.getProjectedLocation(numMoves, snakeDirection));
     }
 
     @Test
@@ -102,10 +98,10 @@ public class LocationTest {
         Location expectedEast = new Location(xExpect + numMoves, yExpect);
         Location expectedWest = new Location(xExpect - numMoves, yExpect);
 
-        assertEquals(expectedSouth, target.getProjectedLocation(numMoves, SnakeDirection.SOUTH, edgeRollBehaviour));
-        assertEquals(expectedNorth, target.getProjectedLocation(numMoves, SnakeDirection.NORTH, edgeRollBehaviour));
-        assertEquals(expectedEast, target.getProjectedLocation(numMoves, SnakeDirection.EAST, edgeRollBehaviour));
-        assertEquals(expectedWest, target.getProjectedLocation(numMoves, SnakeDirection.WEST, edgeRollBehaviour));
+        assertEquals(expectedSouth, target.getProjectedLocation(numMoves, SnakeDirection.SOUTH));
+        assertEquals(expectedNorth, target.getProjectedLocation(numMoves, SnakeDirection.NORTH));
+        assertEquals(expectedEast, target.getProjectedLocation(numMoves, SnakeDirection.EAST));
+        assertEquals(expectedWest, target.getProjectedLocation(numMoves, SnakeDirection.WEST));
     }
 
     @Test
@@ -119,16 +115,16 @@ public class LocationTest {
 
             assertEquals("numMoves: " + numMoves,
                     expectedSouth,
-                    target.getProjectedLocation(numMoves, SnakeDirection.SOUTH, edgeRollBehaviour));
+                    target.getProjectedLocation(numMoves, SnakeDirection.SOUTH));
             assertEquals("numMoves: " + numMoves,
                     expectedNorth,
-                    target.getProjectedLocation(numMoves, SnakeDirection.NORTH, edgeRollBehaviour));
+                    target.getProjectedLocation(numMoves, SnakeDirection.NORTH));
             assertEquals("numMoves: " + numMoves,
                     expectedEast,
-                    target.getProjectedLocation(numMoves, SnakeDirection.EAST, edgeRollBehaviour));
+                    target.getProjectedLocation(numMoves, SnakeDirection.EAST));
             assertEquals("numMoves: " + numMoves,
                     expectedWest,
-                    target.getProjectedLocation(numMoves, SnakeDirection.WEST, edgeRollBehaviour));
+                    target.getProjectedLocation(numMoves, SnakeDirection.WEST));
         }
     }
 

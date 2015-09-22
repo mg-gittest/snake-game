@@ -4,7 +4,6 @@
 
 package consulting.germain.snakegame.model;
 
-import consulting.germain.snakegame.enums.EdgeRollBehaviour;
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 /**
@@ -73,21 +72,6 @@ public class Location {
      * @return the projected positon with those movements
      */
     public Location getProjectedLocation(int numberMoves, SnakeDirection snakeDirection) {
-        return getProjectedLocation(numberMoves, snakeDirection, Settings.edgeRollBehaviour);
-    }
-
-    /**
-     * project location after number of moves in given direction, limited by boundaries
-     *
-     * @param numberMoves       how many moves, if < 1 then don't move
-     * @param snakeDirection    which way to move
-     * @param edgeRollBehaviour how to hadnle reaching the edge
-     * @return the projected positon with those movements
-     */
-    public Location getProjectedLocation(
-            int numberMoves,
-            SnakeDirection snakeDirection,
-            EdgeRollBehaviour edgeRollBehaviour) {
 
         // don't move with a non-positive number of moves
         if (numberMoves < 1) {
@@ -98,19 +82,19 @@ public class Location {
 
         switch (snakeDirection) {
             case NORTH:
-                newLocation = new Location(x, calcNewY(-numberMoves, edgeRollBehaviour));
+                newLocation = new Location(x, calcNewY(-numberMoves));
                 break;
 
             case SOUTH:
-                newLocation = new Location(x, calcNewY(+numberMoves, edgeRollBehaviour));
+                newLocation = new Location(x, calcNewY(+numberMoves));
                 break;
 
             case EAST:
-                newLocation = new Location(calcNewX(+numberMoves, edgeRollBehaviour), y);
+                newLocation = new Location(calcNewX(+numberMoves), y);
                 break;
 
             case WEST:
-                newLocation = new Location(calcNewX(-numberMoves, edgeRollBehaviour), y);
+                newLocation = new Location(calcNewX(-numberMoves), y);
                 break;
 
             default:
@@ -124,46 +108,28 @@ public class Location {
      * calculate a new Y coordinate given the number of moves to make, and roll behaviour
      *
      * @param numberMoves       how many tiles to move, restricted to maxMoveY
-     * @param edgeRollBehaviour how to roll movement at edge of field
      * @return new Y for given move
      */
-    private int calcNewY(int numberMoves, EdgeRollBehaviour edgeRollBehaviour) {
-        int newY = y + numberMoves;
-
-        switch (edgeRollBehaviour) {
-            case ROLL_BLOCKED: // fall through
-            case ROLL_X_ALLOWED:
-                // not allowed to roll top/bottom so trap at limits
-                if (newY < Limits.minYcoord) {
-                    newY = Limits.minYcoord;
-                } else if (newY > Limits.maxYcoord) {
-                    newY = Limits.maxYcoord;
-                }
-                break;
-
-            default:
-                // we can roll, so check sign to decide logic
-                if (numberMoves > 0) {
-                    // restrict so that we don't wrap multiple times
-                    numberMoves = Math.min(numberMoves, +Limits.maxMoveY);
-                    newY = y + numberMoves;
-                    final int diff = newY - Limits.maxYcoord;
-                    if (diff > 0) {
-                        // went beyond the limit, so wrap by overshoot
-                        newY = Limits.minYcoord + diff;
-                    }
-                } else {
-                    // restrict so that we don't wrap multiple times
-                    numberMoves = Math.max(numberMoves, -Limits.maxMoveY);
-                    newY = y + numberMoves;
-                    final int diff = Limits.maxYcoord - newY;
-                    if (diff > 0) {
-                        // went beyond the limit, so wrap by overshoot
-                        newY = Limits.maxYcoord - diff;
-                    }
-                }
-                break;
-
+    private int calcNewY(int numberMoves) {
+        int newY = y;
+        if (numberMoves > 0) {
+            // restrict so that we don't wrap multiple times
+            numberMoves = Math.min(numberMoves, +Limits.maxMoveY);
+            newY = y + numberMoves;
+            final int diff = newY - Limits.maxYcoord;
+            if (diff > 0) {
+                // went beyond the limit, so wrap by overshoot
+                newY = Limits.minYcoord + diff;
+            }
+        } else if (numberMoves < 0) {
+            // restrict so that we don't wrap multiple times
+            numberMoves = Math.max(numberMoves, -Limits.maxMoveY);
+            newY = y + numberMoves;
+            final int diff = Limits.maxYcoord - newY;
+            if (diff > 0) {
+                // went beyond the limit, so wrap by overshoot
+                newY = Limits.maxYcoord - diff;
+            }
         }
 
         return newY;
@@ -172,47 +138,30 @@ public class Location {
     /**
      * calculate a new X coordinate given the number of moves to make, and roll behaviour
      *
-     * @param numberMoves       how many tiles to move, restricted to maxMoveY
-     * @param edgeRollBehaviour how to roll movement at edge of field
+     * @param numberMoves how many tiles to move, restricted to maxMoveY
      * @return new X for given move
      */
-    private int calcNewX(int numberMoves, EdgeRollBehaviour edgeRollBehaviour) {
-        int newX = x + numberMoves;
+    private int calcNewX(int numberMoves) {
 
-        switch (edgeRollBehaviour) {
-            case ROLL_BLOCKED: // fall through
-            case ROLL_Y_ALLOWED:
-                // not allowed to roll top/bottom so trap at limits
-                if (newX < Limits.minXcoord) {
-                    newX = Limits.minXcoord;
-                } else if (newX > Limits.maxXcoord) {
-                    newX = Limits.maxXcoord;
-                }
-                break;
-
-            default:
-                // we can roll, so check sign to decide logic
-                if (numberMoves > 0) {
-                    // restrict so that we don't wrap multiple times
-                    numberMoves = Math.min(numberMoves, +Limits.maxMoveX);
-                    newX = x + numberMoves;
-                    final int diff = newX - Limits.maxXcoord;
-                    if (diff > 0) {
-                        // went beyond the limit, so wrap by overshoot
-                        newX = Limits.minXcoord + diff;
-                    }
-                } else {
-                    // restrict so that we don't wrap multiple times
-                    numberMoves = Math.max(numberMoves, -Limits.maxMoveX);
-                    newX = x + numberMoves;
-                    final int diff = Limits.maxXcoord - newX;
-                    if (diff > 0) {
-                        // went beyond the limit, so wrap by overshoot
-                        newX = Limits.maxXcoord - diff;
-                    }
-                }
-                break;
-
+        int newX = x;
+        if (numberMoves > 0) {
+            // restrict so that we don't wrap multiple times
+            numberMoves = Math.min(numberMoves, +Limits.maxMoveX);
+            newX = x + numberMoves;
+            final int diff = newX - Limits.maxXcoord;
+            if (diff > 0) {
+                // went beyond the limit, so wrap by overshoot
+                newX = Limits.minXcoord + diff;
+            }
+        } else if (numberMoves < 0) {
+            // restrict so that we don't wrap multiple times
+            numberMoves = Math.max(numberMoves, -Limits.maxMoveX);
+            newX = x + numberMoves;
+            final int diff = Limits.maxXcoord - newX;
+            if (diff > 0) {
+                // went beyond the limit, so wrap by overshoot
+                newX = Limits.maxXcoord - diff;
+            }
         }
 
         return newX;
@@ -239,9 +188,9 @@ public class Location {
             return false;
         }
 
-        Location location = (Location) other;
+        Location that = (Location) other;
 
-        return getX() == location.getX() && getY() == location.getY();
+        return this.getX() == that.getX() && this.getY() == that.getY();
 
     }
 

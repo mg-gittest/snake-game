@@ -7,7 +7,6 @@ package consulting.germain.snakegame.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import consulting.germain.snakegame.enums.EdgeRollBehaviour;
 import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
@@ -98,9 +97,8 @@ public class SnakeStateTest {
         Tile headTile = headTileLocation.getTile();
         int numMoves = 1;
         SnakeDirection headDirection = target.getHeadDirection();
-        EdgeRollBehaviour edgeRole = Settings.edgeRollBehaviour;
         Location nextLocation =
-                headLocation.getProjectedLocation(numMoves, headDirection, edgeRole);
+                headLocation.getProjectedLocation(numMoves, headDirection);
 
         // add the new location as first element of list
         TileLocation nextHeadTileLocation = new TileLocation(nextLocation, headTile);
@@ -157,9 +155,8 @@ public class SnakeStateTest {
         Tile headTile = headTileLocation.getTile();
         int numMoves = 1;
         SnakeDirection headDirection = target.getHeadDirection();
-        EdgeRollBehaviour edgeRole = Settings.edgeRollBehaviour;
         Location nextLocation =
-                headLocation.getProjectedLocation(numMoves, headDirection, edgeRole);
+                headLocation.getProjectedLocation(numMoves, headDirection);
 
         // add the new location as first element of list, so we now have two successive heads
         TileLocation nextHeadTileLocation = new TileLocation(nextLocation, headTile);
