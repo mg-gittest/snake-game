@@ -24,20 +24,52 @@ import static org.junit.Assert.assertEquals;
  */
 public class TileTest {
 
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
     private Tile target;
-    private final int expectSide = 50;
 
     @Test
-    public void testGetTileSide() throws Exception {
+    public void testGetTileSideExplicit() throws Exception {
+        final int expectSide = Settings.tileSize + 5;
+
         target = new Tile(expectSide, TilePrize.APPLE);
         int actual = target.getTileSide();
-        assertEquals("tileSide", expectSide, actual);
+        assertEquals("tileSide explicit", expectSide, actual);
+
+        target = new Tile(TilePrize.CAKE);
+        actual = target.getTileSide();
+        assertEquals("tileSide default", Settings.tileSize, actual);
+
+    }
+
+    @Test
+    public void testGetTileSidePrize() throws Exception {
+        target = new Tile(TilePrize.CAKE);
+        assertEquals("tileSide default", Settings.tileSize, target.getTileSide());
+    }
+
+    @Test
+    public void testGetTileSideHead() throws Exception {
+        target = new Tile(TileSnakeHead.SOUTH);
+        assertEquals("tileSide default", Settings.tileSize, target.getTileSide());
+    }
+
+    @Test
+    public void testGetTileSideBody() throws Exception {
+        target = new Tile(TileSnakeHead.EAST);
+        assertEquals("tileSide default", Settings.tileSize, target.getTileSide());
+    }
+
+    @Test
+    public void testGetTileSideTail() throws Exception {
+        target = new Tile(TileSnakeTail.EAST);
+        assertEquals("tileSide default", Settings.tileSize, target.getTileSide());
     }
 
     @Test
     public void testGetTileTypePrize() throws Exception {
         for (TilePrize type : TilePrize.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             TileType actual = target.getTileType();
             assertEquals("tileType", TileType.PRIZE, actual);
         }
@@ -46,7 +78,7 @@ public class TileTest {
     @Test
     public void testGetTileTypeHead() throws Exception {
         for (TileSnakeHead type : TileSnakeHead.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             TileType actual = target.getTileType();
             assertEquals("tileType", TileType.SNAKE_HEAD, actual);
         }
@@ -55,7 +87,7 @@ public class TileTest {
     @Test
     public void testGetTileTypeBody() throws Exception {
         for (TileSnakeBody type : TileSnakeBody.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             TileType actual = target.getTileType();
             assertEquals("tileType", TileType.SNAKE_BODY, actual);
         }
@@ -64,7 +96,7 @@ public class TileTest {
     @Test
     public void testGetTileTypeTail() throws Exception {
         for (TileSnakeTail type : TileSnakeTail.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             TileType actual = target.getTileType();
             assertEquals("tileType", TileType.SNAKE_TAIL, actual);
         }
@@ -74,22 +106,22 @@ public class TileTest {
     public void testIsMovable() throws Exception {
 
         for (TilePrize type : TilePrize.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             Assert.assertFalse("isMovable", target.isMovable());
         }
 
         for (TileSnakeHead type : TileSnakeHead.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             Assert.assertTrue("isMovable", target.isMovable());
         }
 
         for (TileSnakeBody type : TileSnakeBody.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             Assert.assertFalse("isMovable", target.isMovable());
         }
 
         for (TileSnakeTail type : TileSnakeTail.values()) {
-            target = new Tile(expectSide, type);
+            target = new Tile(type);
             Assert.assertTrue("isMovable", target.isMovable());
         }
 
@@ -99,16 +131,13 @@ public class TileTest {
     public void testGetDrawableId() throws Exception {
 
         int drawableIdExpected = R.drawable.snake_body_east_to_north;
-        target = new Tile(expectSide, TileSnakeBody.EAST_TO_NORTH);
+        target = new Tile(TileSnakeBody.EAST_TO_NORTH);
         assertEquals("drawableId snake_body_east_to_north", drawableIdExpected, target.getDrawableId());
 
         drawableIdExpected = R.drawable.snake_head_east;
-        target = new Tile(expectSide, TileSnakeHead.EAST);
+        target = new Tile(TileSnakeHead.EAST);
         assertEquals("drawableId snake_head_east", drawableIdExpected, target.getDrawableId());
     }
-
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testBadSideMin() throws Exception {

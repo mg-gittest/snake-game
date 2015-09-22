@@ -14,7 +14,7 @@ import consulting.germain.snakegame.enums.TileSnakeTail;
  */
 public class SnakeStateFactory {
 
-    public static final int tileSideDefault = 45;
+    public static final int tileSideDefault = Settings.tileSize;
 
     // a snake heading east and 11 tiles long
     public static final int bodyTileCountDefault = 9;
@@ -47,9 +47,7 @@ public class SnakeStateFactory {
         }
         bodyLocations.addLast(tailTileLocationDefault);
 
-        SnakeState target = new SnakeState(bodyLocations);
-
-        return target;
+        return new SnakeState(bodyLocations);
     }
 
 }

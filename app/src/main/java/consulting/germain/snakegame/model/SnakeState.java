@@ -10,7 +10,7 @@ import consulting.germain.snakegame.enums.TileType;
 /**
  * Created by mark_local on 15/09/2015.
  * A snake movement has head, tail locations and a driection for the head
- * has length, and responds to requests to grow, shorten by an amount
+ * has length, and responds to requests to growHead, shorten by an amount
  * had a SnakeDirection, that the head currently has, which the body and tail follow logically as it moves
  * responds to request to move
  */
@@ -30,26 +30,6 @@ public class SnakeState {
      * will start adjacent to head and finish adjacent to tail
      */
     private final TileLocationList tileLocations;
-
-    /**
-     * location of the head
-     */
-    private final TileLocation headLocation;
-
-    /**
-     * location of the tail
-     */
-    private final TileLocation tailLocation;
-
-    /**
-     * direction the head is pointing
-     */
-    private final SnakeDirection headDirection;
-
-    /**
-     * direction the tail is pointing
-     */
-    private final SnakeDirection tailDirection;
 
     /**
      * ctor from supplied tile locations, that will be validated
@@ -85,10 +65,6 @@ public class SnakeState {
                 throw new IllegalArgumentException(msg);
             }
         }
-        headLocation = tileLocations.getFirst();
-        tailLocation = tileLocations.getLast();
-        headDirection = headLocation.getTile().getDirectionTo();
-        tailDirection = tailLocation.getTile().getDirectionFrom();
     }
 
     /**
@@ -196,28 +172,28 @@ public class SnakeState {
      * @return location of the head
      */
     public TileLocation getHeadTileLocation() {
-        return headLocation;
+        return tileLocations.getFirst();
     }
 
     /**
      * @return location of the tail
      */
     public TileLocation getTailTileLocation() {
-        return tailLocation;
+        return tileLocations.getLast();
     }
 
     /**
      * @return direction of the head
      */
     public SnakeDirection getHeadDirection() {
-        return headDirection;
+        return getHeadTileLocation().getTile().getDirectionTo();
     }
 
     /**
      * @return direction of the tail
      */
     public SnakeDirection getTailDirection() {
-        return tailDirection;
+        return getTailTileLocation().getTile().getDirectionTo();
     }
 
 }

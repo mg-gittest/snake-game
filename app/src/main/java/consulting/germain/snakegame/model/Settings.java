@@ -16,4 +16,9 @@ public class Settings {
      * roll behaviour we are currently using
      */
     public static EdgeRollBehaviour edgeRollBehaviour = EdgeRollBehaviour.ROLL_X_Y_ALLOWED;
+
+    /**
+     * default tile side
+     */
+    public static int tileSize = 45;
 }

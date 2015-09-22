@@ -19,46 +19,55 @@ import consulting.germain.snakegame.enums.TileType;
  * expect multiple instances of most tiles
  */
 public class Tile {
-    private final int    tileSide;
+    private final int     tileSide;
     private final TileType tileType;
     private final boolean movable;
-    private final String description;
-    private final int    drawableId;
+    private final String  description;
+    private final int     drawableId;
     private final SnakeDirection directionTo;
     private final SnakeDirection directionFrom;
 
-    public int getTileSide() {
-        return tileSide;
+    /**
+     * ctor for a prize tile
+     *
+     * @param prize the enumeration specifying which tile this is.
+     */
+    public Tile(final TilePrize prize) {
+        this(Settings.tileSize, prize);
     }
 
-    public TileType getTileType() {
-        return tileType;
+    /**
+     * ctor for a snake body tile
+     *
+     * @param body the enumeration specifying which tile this is.
+     */
+    public Tile(final TileSnakeBody body) {
+        this(Settings.tileSize, body);
     }
 
-    public boolean isMovable() {
-        return movable;
+    /**
+     * ctor for a snake head tile
+     *
+     * @param head the enumeration specifying which tile this is.
+     */
+    public Tile(final TileSnakeHead head) {
+        this(Settings.tileSize, head);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getDrawableId() {
-        return drawableId;
-    }
-
-    public SnakeDirection getDirectionTo() {
-        return directionTo;
-    }
-
-    public SnakeDirection getDirectionFrom() {
-        return directionFrom;
+    /**
+     * ctor for a snake tail tile
+     *
+     * @param tail the enumeration specifying which tile this is.
+     */
+    public Tile(final TileSnakeTail tail) {
+        this(Settings.tileSize, tail);
     }
 
     /**
      * ctor for a prize tile
+     *
      * @param tileSide the size of one side of a square tile
-     * @param prize the enumeration specifying which tile this is.
+     * @param prize    the enumeration specifying which tile this is.
      */
     public Tile(final int tileSide, final TilePrize prize) {
 
@@ -94,8 +103,9 @@ public class Tile {
 
     /**
      * ctor for a snake body tile
+     *
      * @param tileSide the size of one side of a square tile
-     * @param body the enumeration specifying which tile this is.
+     * @param body     the enumeration specifying which tile this is.
      */
     public Tile(final int tileSide, final TileSnakeBody body) {
 
@@ -175,8 +185,9 @@ public class Tile {
 
     /**
      * ctor for a snake head tile
+     *
      * @param tileSide the size of one side of a square tile
-     * @param head the enumeration specifying which tile this is.
+     * @param head     the enumeration specifying which tile this is.
      */
     public Tile(final int tileSide, final TileSnakeHead head) {
 
@@ -212,7 +223,6 @@ public class Tile {
                 break;
         }
     }
-
 
     /**
      * ctor for a snake tail tile
@@ -252,6 +262,34 @@ public class Tile {
                         SnakeDirection.NORTH; // meaningless here, but need something
                 break;
         }
+    }
+
+    public int getTileSide() {
+        return tileSide;
+    }
+
+    public TileType getTileType() {
+        return tileType;
+    }
+
+    public boolean isMovable() {
+        return movable;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getDrawableId() {
+        return drawableId;
+    }
+
+    public SnakeDirection getDirectionTo() {
+        return directionTo;
+    }
+
+    public SnakeDirection getDirectionFrom() {
+        return directionFrom;
     }
 
     /**

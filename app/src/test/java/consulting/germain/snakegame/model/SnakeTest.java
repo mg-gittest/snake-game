@@ -10,7 +10,7 @@ import org.junit.Test;
 import consulting.germain.snakegame.enums.SnakeDirection;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by mark_local on 15/09/2015.
@@ -42,17 +42,19 @@ public class SnakeTest {
 
     @Test
     public void testGetHeadLocation() throws Exception {
-        assertEquals(SnakeStateFactory.headLocationDefault, target.getHeadLocation().getLocation());
+        assertEquals(SnakeStateFactory.headLocationDefault, target.getHeadTileLocation()
+                .getLocation());
     }
 
     @Test
     public void testGetHeadTileLocation() throws Exception {
-        assertEquals(SnakeStateFactory.headTileLocationDefault, target.getHeadLocation());
+        assertEquals(SnakeStateFactory.headTileLocationDefault, target.getHeadTileLocation());
     }
 
     @Test
     public void testGetTailLocation() throws Exception {
-        assertEquals(SnakeStateFactory.tailLocationDefault, target.getTailLocation().getLocation());
+        assertEquals(SnakeStateFactory.tailLocationDefault, target.getTailTileLocation()
+                .getLocation());
     }
 
     @Test
@@ -68,12 +70,49 @@ public class SnakeTest {
 
     @Test
     public void testMove() throws Exception {
-        fail("not yet implemented");
+        SnakeDirection headDirection = target.getHeadDirection();
+        TileLocation currentHeadLocation = target.getHeadTileLocation();
+        TileLocation currentTailLocation = target.getTailTileLocation();
+
+        Location expectedHead =
+                currentHeadLocation.getLocation().getProjectedLocation(headDirection);
+        Location expectedTail =
+                currentTailLocation.getLocation().getProjectedLocation(headDirection);
+
+        target.move(headDirection);
+
+        TileLocation actualHeadLocation = target.getHeadTileLocation();
+        TileLocation actualTailLocation = target.getTailTileLocation();
+
+        assertEquals("head", expectedHead, actualHeadLocation.getLocation());
+        assertEquals("tail", expectedTail, actualTailLocation.getLocation());
+
+        String msg = target.validateState();
+        assertEquals(msg, 0, msg.length());
     }
 
     @Test
-    public void testGrow() throws Exception {
-        fail("not yet implemented");
+    public void testGrowCurrentDir() throws Exception {
+
+        SnakeDirection headDirection = target.getHeadDirection();
+        TileLocation currentLocation = target.getHeadTileLocation();
+        TileLocation newHeadLocation = target.growHead(headDirection);
+
+        assertTrue("adjacent", currentLocation.isAdjacentLocation(newHeadLocation));
+
+        String msg = target.validateState();
+        assertEquals(msg, 0, msg.length());
+
+        Location expectedLocation =
+                currentLocation.getLocation().getProjectedLocation(headDirection);
+        assertEquals("location", expectedLocation, newHeadLocation.getLocation());
+
+        Tile expectedTile = currentLocation.getTile();
+        assertEquals("tile", expectedTile, newHeadLocation.getTile());
+
+        msg = target.validateState();
+        assertEquals(msg, 0, msg.length());
+
     }
 
     @Test

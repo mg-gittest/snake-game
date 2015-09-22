@@ -56,6 +56,27 @@ public class Location {
     }
 
     /**
+     * project location after one move in given direction, roll behaviour from Settings
+     *
+     * @param snakeDirection which way to move
+     * @return the projected positon with those movements
+     */
+    public Location getProjectedLocation(SnakeDirection snakeDirection) {
+        return getProjectedLocation(1, snakeDirection);
+    }
+
+    /**
+     * project location after number of moves in given direction, roll behaviour from Settings
+     *
+     * @param numberMoves    how many moves, if < 1 then don't move
+     * @param snakeDirection which way to move
+     * @return the projected positon with those movements
+     */
+    public Location getProjectedLocation(int numberMoves, SnakeDirection snakeDirection) {
+        return getProjectedLocation(numberMoves, snakeDirection, Settings.edgeRollBehaviour);
+    }
+
+    /**
      * project location after number of moves in given direction, limited by boundaries
      *
      * @param numberMoves       how many moves, if < 1 then don't move
@@ -238,4 +259,5 @@ public class Location {
                 ", y=" + y +
                 '}';
     }
+
 }
