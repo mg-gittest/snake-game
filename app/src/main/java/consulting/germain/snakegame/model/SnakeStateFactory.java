@@ -4,6 +4,7 @@
 
 package consulting.germain.snakegame.model;
 
+import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
 import consulting.germain.snakegame.enums.TileSnakeTail;
@@ -50,4 +51,7 @@ public class SnakeStateFactory {
         return new SnakeState(bodyLocations);
     }
 
+    public static SnakeDirection getDefaultSnakeDirectionControl() {
+        return SnakeDirection.EAST;
+    }
 }
