@@ -58,7 +58,7 @@ public class Location {
     /**
      * project location after one move in given direction, roll behaviour from Settings
      *
-     * @param snakeDirection which way to move
+     * @param snakeDirection    which way to move
      * @return the projected positon with those movements
      */
     public Location getProjectedLocation(SnakeDirection snakeDirection) {
@@ -68,8 +68,8 @@ public class Location {
     /**
      * project location after number of moves in given direction, roll behaviour from Settings
      *
-     * @param numberMoves    how many moves, if < 1 then don't move
-     * @param snakeDirection which way to move
+     * @param numberMoves       how many moves, if < 1 then don't move
+     * @param snakeDirection    which way to move
      * @return the projected positon with those movements
      */
     public Location getProjectedLocation(int numberMoves, SnakeDirection snakeDirection) {

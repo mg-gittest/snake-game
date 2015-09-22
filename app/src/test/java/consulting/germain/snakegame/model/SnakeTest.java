@@ -5,7 +5,9 @@
 package consulting.germain.snakegame.model;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import consulting.germain.snakegame.enums.SnakeDirection;
 
@@ -18,13 +20,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class SnakeTest {
 
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
     private Snake target;
 
     @Before
     public void setup() {
         target = new Snake(SnakeStateFactory.createDefault());
     }
-
 
     @Test
     public void testGetTileLocations() throws Exception {
@@ -91,6 +94,8 @@ public class SnakeTest {
         assertEquals(msg, 0, msg.length());
     }
 
+    //TODO need negative tests for move and grow
+
     @Test
     public void testGrowCurrentDir() throws Exception {
 
@@ -116,13 +121,39 @@ public class SnakeTest {
     }
 
     @Test
+    public void testShrinkTail() throws Exception {
+
+        TileLocation oldHeadLocation = target.getHeadTileLocation();
+        TileLocation oldTailLocation = target.getTailTileLocation();
+        int oldLength = target.getLength();
+
+        Location expectedTail =
+                oldTailLocation.getLocation().getProjectedLocation(target.getTailDirection());
+
+        target.shrinkTail();
+
+        TileLocation newHeadLocation = target.getHeadTileLocation();
+        TileLocation newTailLocation = target.getTailTileLocation();
+        int newLength = target.getLength();
+
+        assertEquals("head", oldHeadLocation, newHeadLocation);
+        assertEquals("length", oldLength - 1, newLength);
+        assertEquals("tailLocation", expectedTail, newTailLocation.getLocation());
+        assertEquals("tail tile", oldTailLocation.getTile(), newTailLocation.getTile());
+
+    }
+
+    @Test
     public void testGetLength() throws Exception {
         // body tiles plus head and tail
         assertEquals(SnakeStateFactory.bodyTileCountDefault + 2, target.getLength());
     }
 
     @Test
-    public void testNonAdjacent() throws Exception {
+    public void testMoveEastToWest() throws Exception {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Snake.BAD_NECK_REQUEST);
 
+        target.move(SnakeDirection.WEST);
     }
 }

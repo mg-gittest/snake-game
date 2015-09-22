@@ -18,9 +18,9 @@ import consulting.germain.snakegame.enums.TileSnakeTail;
  */
 public class Snake {
 
-    private static final String BAD_NECK_REQUEST = "Requested bad neck from/to: ";
-    private static final String GROW_HEAD_FAIL   = "Failure to Grow Head correctly: ";
-    private static final String TAIL_SHRINK_FAIL = "Failure to Shrink Tail correctly: ";
+    public static final String BAD_NECK_REQUEST = "Requested bad neck from/to: ";
+    public static final String GROW_HEAD_FAIL   = "Failure to Grow Head correctly: ";
+    public static final String TAIL_SHRINK_FAIL = "Failure to Shrink Tail correctly: ";
 
     /**
      * current movement state of the snake ends
@@ -67,6 +67,16 @@ public class Snake {
     }
 
     /**
+     * examine a suplied list of TileLocation and see if any intersect with the TileLocations of the snake
+     *
+     * @param targetList A list of locations to check
+     * @return ture is there is an intersection false otherwise
+     */
+    public boolean intersects(final TileLocationList targetList) {
+        return getTileLocations().intersects(targetList);
+    }
+
+    /**
      * ask the snake to move in a particular direction by moving its head
      * inserting appropriate body section, and moving tail
      * @param direction which way to move head
@@ -82,7 +92,13 @@ public class Snake {
         return getHeadTileLocation();
     }
 
-    private void shrinkTail() throws Exception {
+    /**
+     * Reduce the size of the snake by removing one rear body section and advancing the tail to that location
+     * rotating tail to align with next section if needed
+     *
+     * @throws Exception if the final state fails to validate
+     */
+    public void shrinkTail() throws Exception {
 
         TileLocationList list = getTileLocations();
         list.removeLast(); // get rid of old tail

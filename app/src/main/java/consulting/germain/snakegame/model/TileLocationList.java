@@ -19,6 +19,22 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
     private LinkedList<TileLocation> list = new LinkedList<>();
 
     /**
+     * examine a suplied list of TileLocation and see if any intersect with the TileLocations of the list
+     * @param targetList A list of locations to check
+     * @return ture is there is an intersection false otherwise
+     */
+    public boolean intersects(final TileLocationList targetList) {
+        for (TileLocation target : targetList.list) {
+            for (TileLocation local : list) {
+                if (local.sameLocation(target)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Adds the specified TileLocation at the end of this {@code LinkedList}.
      *
      * @param tileLocation the tileLocation to add.
