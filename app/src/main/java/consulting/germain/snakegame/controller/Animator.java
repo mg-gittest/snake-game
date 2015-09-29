@@ -31,7 +31,7 @@ public class Animator implements Runnable {
     /**
      * flag
      */
-    private boolean hasFinished      = false;
+    private boolean finished         = false;
     /**
      * last recorded animation time
      */
@@ -68,8 +68,9 @@ public class Animator implements Runnable {
             while (runningRequested) {
                 if (timeSource.timeSince(lastStepTime) > stepTimeIntervalMillis) {
                     lastStepTime = advanceAnimation();
+                } else {
+                    TimeUnit.MILLISECONDS.sleep(stepTimeIntervalMillis / 2);
                 }
-                TimeUnit.MILLISECONDS.sleep(stepTimeIntervalMillis / 2);
             }
         } catch (InterruptedException e) {
             // deliberately empty
@@ -77,7 +78,7 @@ public class Animator implements Runnable {
             e.printStackTrace();
         }
 
-        hasFinished = true;
+        finished = true;
     }
 
     /**
@@ -172,6 +173,26 @@ public class Animator implements Runnable {
      */
     public long getStepTimeIntervalMillis() {
         return stepTimeIntervalMillis;
+    }
+
+    /**
+     * set the step time interval
+     * @param stepTimeIntervalMillis time in milli seconds between animation steps
+     * @return the old step time
+     */
+    public long setStepTimeIntervalMillis(long stepTimeIntervalMillis) {
+        long oldSteptime = this.stepTimeIntervalMillis;
+        if (stepTimeIntervalMillis > 0) {
+            this.stepTimeIntervalMillis = stepTimeIntervalMillis;
+        }
+        return oldSteptime;
+    }
+
+    /**
+     * @return true if animation is finished.
+     */
+    public boolean isFinished() {
+        return finished;
     }
 
     /**

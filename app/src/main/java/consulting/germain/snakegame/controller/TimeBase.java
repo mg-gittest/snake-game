@@ -19,11 +19,11 @@ public class TimeBase {
     /**
      * Executor service to use
      */
-    private final ExecutorService executor;
+    final   ExecutorService executor;
     /**
      * our animator
      */
-    private       Animator        animator;
+    private Animator        animator;
 
     /**
      * runable that will do the animation

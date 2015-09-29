@@ -100,4 +100,6 @@ public class AnimatorTest {
         assertEquals(lastStepTime, target.getLastStepTime());
         assertEquals(expectedTime, lastStepTime);
     }
+
+
 }
