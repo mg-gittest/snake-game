@@ -27,9 +27,9 @@ public class SnakeStateFactory {
     public static final Location headLocationDefault = new Location(headDefaultX, headDefaultY);
     public static final Location tailLocationDefault = new Location(tailDefaultX, tailDefaultY);
 
-    public static final Tile headTileDefault = new Tile(tileSideDefault, TileSnakeHead.EAST);
-    public static final Tile tailTileDefault = new Tile(tileSideDefault, TileSnakeTail.EAST);
-    public static final Tile bodyTileDefault = new Tile(tileSideDefault, TileSnakeBody.EAST);
+    public static final Tile headTileDefault = new Tile(TileSnakeHead.EAST);
+    public static final Tile tailTileDefault = new Tile(TileSnakeTail.EAST);
+    public static final Tile bodyTileDefault = new Tile(TileSnakeBody.EAST);
 
     public static final TileLocation headTileLocationDefault =
             new TileLocation(headLocationDefault, headTileDefault);

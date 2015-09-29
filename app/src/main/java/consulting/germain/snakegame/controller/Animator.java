@@ -21,29 +21,29 @@ public class Animator implements Runnable {
      */
     private TimeSource timeSource;
     /**
-     * flag
+     * snake being animated
      */
-    private boolean    runningRequested;
+    private Snake      snake;
     /**
      * flag
      */
-    private boolean hasFinished = false;
+    private boolean runningRequested = true;
+    /**
+     * flag
+     */
+    private boolean hasFinished      = false;
     /**
      * last recorded animation time
      */
-    private long           lastStepTime;
+    private long lastStepTime;
     /**
      * minimum time between starting animation steps
      */
-    private long           stepTimeIntervalMillis;
+    private long stepTimeIntervalMillis;
     /**
      * number of steps that have been animated
      */
-    private int            stepCount;
-    /**
-     * snake being animated
-     */
-    private Snake          snake;
+    private int stepCount = 0;
     /**
      * requested control direction
      */
@@ -51,9 +51,7 @@ public class Animator implements Runnable {
 
     public Animator(TimeSource timeSource) {
         this.timeSource = timeSource;
-        this.runningRequested = true;
         this.stepTimeIntervalMillis = Settings.timebaseStartMillis;
-        this.stepCount = 0;
         this.snakeDirectionControl = SnakeStateFactory.getDefaultSnakeDirectionControl();
         this.lastStepTime = timeSource.currentTimeMillis();
     }
@@ -74,7 +72,7 @@ public class Animator implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(stepTimeIntervalMillis / 2);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            // deliberately empty
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,6 +88,7 @@ public class Animator implements Runnable {
     synchronized
     private long advanceAnimation() throws Exception {
         lastStepTime = timeSource.currentTimeMillis();
+        ++stepCount;
         snake.move(snakeDirectionControl);
         // TODO: collision detection, prize detection, and lots more
         return lastStepTime;
@@ -116,15 +115,13 @@ public class Animator implements Runnable {
     }
 
     /**
-     * initialise the animation
+     * initialise the animation, package access to allow testing
      *
-     * @return
+     * @return lastStepTime
      */
-    synchronized
-    private long initialiseAnimation() {
-        this.stepCount = 0;
-        lastStepTime = timeSource.currentTimeMillis();
+    synchronized long initialiseAnimation() {
         this.snake = new Snake(SnakeStateFactory.createDefault());
+        lastStepTime = timeSource.currentTimeMillis();
         return lastStepTime;
     }
 

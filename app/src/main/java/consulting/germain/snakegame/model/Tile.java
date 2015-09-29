@@ -15,13 +15,12 @@ import consulting.germain.snakegame.enums.TileType;
 
 /**
  * Created by mark_local on 11/09/2015.
- * holds appropriate drawableId, and knows the type type and if the tile should be movable
+ * holds appropriate drawableId, and can describe itself
+ * also has a to/from direction to help with aligning the snake tiles
  * expect multiple instances of most tiles
  */
 public class Tile {
-    private final int     tileSide;
     private final TileType tileType;
-    private final boolean movable;
     private final String  description;
     private final int     drawableId;
     private final SnakeDirection directionTo;
@@ -30,54 +29,14 @@ public class Tile {
     /**
      * ctor for a prize tile
      *
-     * @param prize the enumeration specifying which tile this is.
-     */
-    public Tile(final TilePrize prize) {
-        this(Settings.tileSize, prize);
-    }
-
-    /**
-     * ctor for a snake body tile
-     *
-     * @param body the enumeration specifying which tile this is.
-     */
-    public Tile(final TileSnakeBody body) {
-        this(Settings.tileSize, body);
-    }
-
-    /**
-     * ctor for a snake head tile
-     *
-     * @param head the enumeration specifying which tile this is.
-     */
-    public Tile(final TileSnakeHead head) {
-        this(Settings.tileSize, head);
-    }
-
-    /**
-     * ctor for a snake tail tile
-     *
-     * @param tail the enumeration specifying which tile this is.
-     */
-    public Tile(final TileSnakeTail tail) {
-        this(Settings.tileSize, tail);
-    }
-
-    /**
-     * ctor for a prize tile
-     *
-     * @param tileSide the size of one side of a square tile
      * @param prize    the enumeration specifying which tile this is.
      */
-    public Tile(final int tileSide, final TilePrize prize) {
+    public Tile(final TilePrize prize) {
 
-        validateTileSide(tileSide);
-        this.tileSide = tileSide;
         this.tileType = TileType.PRIZE;
-        this.movable = false;
         this.description = tileType.toString() + ":" + prize.toString();
-        this.directionFrom =
-                this.directionTo = SnakeDirection.NORTH; // meaningless here, but need something
+        this.directionFrom = SnakeDirection.NORTH; // meaningless here, but need something
+        this.directionTo = SnakeDirection.NORTH; // meaningless here, but need something
 
         switch (prize) {
             case APPLE:
@@ -104,15 +63,11 @@ public class Tile {
     /**
      * ctor for a snake body tile
      *
-     * @param tileSide the size of one side of a square tile
      * @param body     the enumeration specifying which tile this is.
      */
-    public Tile(final int tileSide, final TileSnakeBody body) {
+    public Tile(final TileSnakeBody body) {
 
-        validateTileSide(tileSide);
-        this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_BODY;
-        this.movable = false;
         this.description = tileType.toString() + ":" + body.toString();
 
         switch (body) {
@@ -186,15 +141,11 @@ public class Tile {
     /**
      * ctor for a snake head tile
      *
-     * @param tileSide the size of one side of a square tile
      * @param head     the enumeration specifying which tile this is.
      */
-    public Tile(final int tileSide, final TileSnakeHead head) {
+    public Tile(final TileSnakeHead head) {
 
-        validateTileSide(tileSide);
-        this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_HEAD;
-        this.movable = true;
         this.description = tileType.toString() + ":" + head.toString();
 
         switch (head) {
@@ -226,15 +177,11 @@ public class Tile {
 
     /**
      * ctor for a snake tail tile
-     * @param tileSide the size of one side of a square tile
      * @param tail the enumeration specifying which tile this is.
      */
-    public Tile(final int tileSide, final TileSnakeTail tail) {
+    public Tile(final TileSnakeTail tail) {
 
-        validateTileSide(tileSide);
-        this.tileSide = tileSide;
         this.tileType = TileType.SNAKE_TAIL;
-        this.movable = true;
         this.description = tileType.toString() + ":" + tail.toString();
 
         switch (tail) {
@@ -264,16 +211,8 @@ public class Tile {
         }
     }
 
-    public int getTileSide() {
-        return tileSide;
-    }
-
     public TileType getTileType() {
         return tileType;
-    }
-
-    public boolean isMovable() {
-        return movable;
     }
 
     public String getDescription() {
@@ -292,20 +231,6 @@ public class Tile {
         return directionFrom;
     }
 
-    /**
-     * validates supplied tile side against Limits
-     * @param tileSide what to validate
-     */
-    private void validateTileSide(int tileSide) {
-
-        if (tileSide < Limits.minTileSide) {
-            throw new IllegalArgumentException(Limits.minTileSideFail);
-        }
-        if (tileSide > Limits.maxTileSide) {
-            throw new IllegalArgumentException(Limits.maxTileSideFail);
-        }
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -317,18 +242,14 @@ public class Tile {
 
         Tile that = (Tile) other;
 
-        return getTileSide() == that.getTileSide()
-                && isMovable() == that.isMovable()
-                && getTileType() == that.getTileType()
+        return getTileType() == that.getTileType()
                 && getDrawableId() == that.getDrawableId()
                 ;
     }
 
     @Override
     public int hashCode() {
-        int result = getTileSide();
-        result = 31 * result + getTileType().hashCode();
-        result = 31 * result + (isMovable() ? 1 : 0);
+        int result = getTileType().hashCode();
         result = 31 * result + getDrawableId();
         return result;
     }
@@ -336,11 +257,8 @@ public class Tile {
     @Override
     public String toString() {
         return "Tile{" +
-                "tileSide=" + tileSide +
-                ", tileType=" + tileType +
-                ", movable=" + movable +
+                "tileType=" + tileType +
                 ", drawableId=" + drawableId +
-                ", description=" + description +
                 '}';
     }
 

@@ -35,7 +35,7 @@ public class TileLocationTest {
         locationExpect = new Location(xExpect, yExpect);
         sideExpect = 30;
 
-        tileExpect = new Tile(sideExpect, TilePrize.CAKE);
+        tileExpect = new Tile(TilePrize.CAKE);
         target = new TileLocation(locationExpect, tileExpect);
     }
 
@@ -82,7 +82,7 @@ public class TileLocationTest {
     @Test
     public void testSameLocationDifferentTile() throws Exception {
 
-        Tile tileCake = new Tile(sideExpect, TilePrize.APPLE);
+        Tile tileCake = new Tile(TilePrize.APPLE);
         TileLocation sameXsameY = new TileLocation(new Location(xExpect, yExpect), tileCake);
         TileLocation sameXdiffY = new TileLocation(new Location(xExpect, yExpect + 1), tileCake);
         TileLocation diffXsameY = new TileLocation(new Location(xExpect + 1, yExpect), tileCake);
@@ -98,7 +98,7 @@ public class TileLocationTest {
 
     @Test
     public void testAdjacentLocation() throws Exception {
-        Tile tileCake = new Tile(sideExpect, TilePrize.APPLE);
+        Tile tileCake = new Tile(TilePrize.APPLE);
         TileLocation sameXsameY = new TileLocation(new Location(xExpect, yExpect), tileCake);
         TileLocation sameXdiffY1 = new TileLocation(new Location(xExpect, yExpect + 1), tileCake);
         TileLocation sameXdiffY2 = new TileLocation(new Location(xExpect, yExpect - 1), tileCake);
