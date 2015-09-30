@@ -4,6 +4,7 @@
 
 package consulting.germain.snakegame.model;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -32,6 +33,17 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
             }
         }
         return false;
+    }
+
+    /**
+     * Adds the objects in the specified Collection to this {@code LinkedList}.
+     *
+     * @param collection the collection of objects.
+     * @return {@code true} if this {@code LinkedList} is modified,
+     * {@code false} otherwise.
+     */
+    public boolean addAll(Collection<? extends TileLocation> collection) {
+        return list.addAll(collection);
     }
 
     /**

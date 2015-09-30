@@ -11,10 +11,10 @@ import consulting.germain.snakegame.model.Settings;
 
 /**
  * Created by mark_local on 22/09/2015.
- * Sets the rate of progress of the game, advances all animations one move after each tick
- * ticks can get faster as the player progresses
+ * Combines an animator with a time source to set the progress of the animator
+ * Allowing a test time source to be substituted for the system time source.
  */
-public class TimeBase {
+public class TimeBaseAnimator {
 
     /**
      * Executor service to use
@@ -22,17 +22,14 @@ public class TimeBase {
     final   ExecutorService executor;
     /**
      * our animator
+     * runable that will do the animation
      */
     private Animator        animator;
 
     /**
-     * runable that will do the animation
-     * private final Animator animator;
-     * <p/>
-     * /**
      * default ctor using system time source
      */
-    public TimeBase() {
+    public TimeBaseAnimator() {
         this(new SystemTimeSource());
     }
 
@@ -41,7 +38,7 @@ public class TimeBase {
      *
      * @param timeSource allows a simulated timesource
      */
-    public TimeBase(TimeSource timeSource) {
+    public TimeBaseAnimator(TimeSource timeSource) {
         this(timeSource, Executors.newFixedThreadPool(Settings.numberExecutorThreads));
 
     }
@@ -52,7 +49,7 @@ public class TimeBase {
      * @param timeSource      allows a simulated time source
      * @param executorService allow a choice of executor service
      */
-    public TimeBase(TimeSource timeSource, ExecutorService executorService) {
+    public TimeBaseAnimator(TimeSource timeSource, ExecutorService executorService) {
         this.executor = executorService;
         this.animator = new Animator(timeSource);
         executor.submit(animator);

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class TileLocationListTest {
 
-    private final Tile tile = new Tile(TilePrize.SCISSORS);
+    private final Tile tile = Tile.get(TilePrize.SCISSORS);
     private TileLocationList target;
     private TileLocationList testList;
     private TileLocation     tileLocation;

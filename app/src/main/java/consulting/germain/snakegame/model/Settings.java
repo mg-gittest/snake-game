@@ -21,7 +21,7 @@ public class Settings {
     public static int numberExecutorThreads = 1;
 
     /**
-     * how long the TimeBase should wait before calling for each animation
+     * how long the Animator should wait before calling for each animation step
      */
     public static long timebaseStartMillis = 1024;
 

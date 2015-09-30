@@ -5,6 +5,9 @@
 
 package consulting.germain.snakegame.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TilePrize;
@@ -20,18 +23,22 @@ import consulting.germain.snakegame.enums.TileType;
  * expect multiple instances of most tiles
  */
 public class Tile {
+    private static Map<TilePrize, Tile>     prizeTileMap = new HashMap<>();
+    private static Map<TileSnakeHead, Tile> headTileMap  = new HashMap<>();
+    private static Map<TileSnakeBody, Tile> bodyTileMap  = new HashMap<>();
+    private static Map<TileSnakeTail, Tile> tailTileMap  = new HashMap<>();
     private final TileType tileType;
-    private final String  description;
-    private final int     drawableId;
+    private final String   description;
+    private final int      drawableId;
     private final SnakeDirection directionTo;
     private final SnakeDirection directionFrom;
 
     /**
      * ctor for a prize tile
      *
-     * @param prize    the enumeration specifying which tile this is.
+     * @param prize the enumeration specifying which tile this is.
      */
-    public Tile(final TilePrize prize) {
+    private Tile(final TilePrize prize) {
 
         this.tileType = TileType.PRIZE;
         this.description = tileType.toString() + ":" + prize.toString();
@@ -63,9 +70,9 @@ public class Tile {
     /**
      * ctor for a snake body tile
      *
-     * @param body     the enumeration specifying which tile this is.
+     * @param body the enumeration specifying which tile this is.
      */
-    public Tile(final TileSnakeBody body) {
+    private Tile(final TileSnakeBody body) {
 
         this.tileType = TileType.SNAKE_BODY;
         this.description = tileType.toString() + ":" + body.toString();
@@ -141,9 +148,9 @@ public class Tile {
     /**
      * ctor for a snake head tile
      *
-     * @param head     the enumeration specifying which tile this is.
+     * @param head the enumeration specifying which tile this is.
      */
-    public Tile(final TileSnakeHead head) {
+    private Tile(final TileSnakeHead head) {
 
         this.tileType = TileType.SNAKE_HEAD;
         this.description = tileType.toString() + ":" + head.toString();
@@ -179,7 +186,7 @@ public class Tile {
      * ctor for a snake tail tile
      * @param tail the enumeration specifying which tile this is.
      */
-    public Tile(final TileSnakeTail tail) {
+    private Tile(final TileSnakeTail tail) {
 
         this.tileType = TileType.SNAKE_TAIL;
         this.description = tileType.toString() + ":" + tail.toString();
@@ -209,6 +216,62 @@ public class Tile {
                         SnakeDirection.NORTH; // meaningless here, but need something
                 break;
         }
+    }
+
+    /**
+     * factory for a prize tile
+     *
+     * @param prize    the enumeration specifying which tile this is.
+     */
+    public static Tile get(final TilePrize prize) {
+        Tile ret = prizeTileMap.get(prize);
+        if (ret == null) {
+            ret = new Tile(prize);
+            prizeTileMap.put(prize, ret);
+        }
+        return ret;
+    }
+
+    /**
+     * factory for a body tile
+     *
+     * @param body    the enumeration specifying which tile this is.
+     */
+    public static Tile get(final TileSnakeBody body) {
+        Tile ret = bodyTileMap.get(body);
+        if (ret == null) {
+            ret = new Tile(body);
+            bodyTileMap.put(body, ret);
+        }
+        return ret;
+    }
+
+    /**
+     * factory for a head tile
+     *
+     * @param head    the enumeration specifying which tile this is.
+     */
+    public static Tile get(final TileSnakeHead head) {
+        Tile ret = headTileMap.get(head);
+        if (ret == null) {
+            ret = new Tile(head);
+            headTileMap.put(head, ret);
+        }
+        return ret;
+    }
+
+    /**
+     * factory for a tail tile
+     *
+     * @param tail    the enumeration specifying which tile this is.
+     */
+    public static Tile get(final TileSnakeTail tail) {
+        Tile ret = tailTileMap.get(tail);
+        if (ret == null) {
+            ret = new Tile(tail);
+            tailTileMap.put(tail, ret);
+        }
+        return ret;
     }
 
     public TileType getTileType() {

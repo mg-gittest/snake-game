@@ -26,7 +26,19 @@ public class Snake {
      * current movement state of the snake ends
      */
     private SnakeState snakeState;
+    /**
+     * where to find updated tile locations
+     */
+    private TileLocationList updatedTileLocations = new TileLocationList();
+    /**
+     * where tile location have been deleted
+     */
+    private TileLocationList deletedTileLocations = new TileLocationList();
 
+    /**
+     * ctor
+     * @param startState state to start with
+     */
     public Snake(SnakeState startState) {
         this.snakeState = startState;
     }
@@ -67,13 +79,51 @@ public class Snake {
     }
 
     /**
+     * clear the current list of updated tile locations
+     *
+     * @return list of locations that have been updated by snake changes since last call
+     */
+    synchronized
+    public TileLocationList clearUpdatedTileLocations() {
+        TileLocationList ret = updatedTileLocations;
+        updatedTileLocations = new TileLocationList();
+        return ret;
+    }
+
+    /**
+     * clear the current list of deleted tile locations
+     *
+     * @return list of locations that have been deleted by snake changes since last call
+     */
+    synchronized
+    public TileLocationList clearDeletedTileLocations() {
+        TileLocationList ret = deletedTileLocations;
+        deletedTileLocations = new TileLocationList();
+        return ret;
+    }
+
+    /**
      * examine a suplied list of TileLocation and see if any intersect with the TileLocations of the snake
      *
      * @param targetList A list of locations to check
      * @return ture is there is an intersection false otherwise
      */
+    synchronized
     public boolean intersects(final TileLocationList targetList) {
         return getTileLocations().intersects(targetList);
+    }
+
+    /**
+     * ask the snake to move in a current direction by moving its head
+     * inserting appropriate body section, and moving tail
+     *
+     * @return resulting location of the head
+     * @throws Exception                if final state is unexpected
+     * @throws IllegalArgumentException if cannot turn head in direction requested
+     */
+    synchronized
+    public TileLocation move() throws Exception {
+        return move(getHeadDirection());
     }
 
     /**
@@ -84,6 +134,7 @@ public class Snake {
      * @throws Exception if final state is unexpected
      * @throws IllegalArgumentException if cannot turn head in direction requested
      */
+    synchronized
     public TileLocation move(SnakeDirection direction) throws Exception {
         // first grow the head, then shrink the tail
         growHead(direction);
@@ -98,10 +149,13 @@ public class Snake {
      *
      * @throws Exception if the final state fails to validate
      */
+    synchronized
     public void shrinkTail() throws Exception {
 
         TileLocationList list = getTileLocations();
-        list.removeLast(); // get rid of old tail
+        TileLocation oldTail = list.removeLast(); // get rid of old tail
+        deletedTileLocations.addLast(oldTail);
+
         // remove last body segment, keep ref so we can build tail in same location
         TileLocation lastBody = list.removeLast();
         //set tail direction based on what it needs to join to
@@ -125,6 +179,7 @@ public class Snake {
      * @throws Exception if final state is unexpected
      * @throws IllegalArgumentException if cannot turn head in direction requested
      */
+    synchronized
     public TileLocation growHead(SnakeDirection direction) throws Exception {
 
         Tile neckTile = chooseNeckTile(direction);
@@ -158,16 +213,16 @@ public class Snake {
     private Tile chooseHeadTile(SnakeDirection direction) {
         switch (direction) {
             case NORTH:
-                return new Tile(TileSnakeHead.NORTH);
+                return Tile.get(TileSnakeHead.NORTH);
 
             case EAST:
-                return new Tile(TileSnakeHead.EAST);
+                return Tile.get(TileSnakeHead.EAST);
 
             case SOUTH:
-                return new Tile(TileSnakeHead.SOUTH);
+                return Tile.get(TileSnakeHead.SOUTH);
 
             case WEST:
-                return new Tile(TileSnakeHead.WEST);
+                return Tile.get(TileSnakeHead.WEST);
 
         }
         return null;
@@ -188,28 +243,28 @@ public class Snake {
             case NORTH:
                 switch (direction) {
                     case NORTH:
-                        return new Tile(TileSnakeBody.NORTH);
+                        return Tile.get(TileSnakeBody.NORTH);
 
                     case EAST:
-                        return new Tile(TileSnakeBody.NORTH_TO_EAST);
+                        return Tile.get(TileSnakeBody.NORTH_TO_EAST);
 
                     case SOUTH:
                         throw new IllegalArgumentException(buildBadNeckMessage(currentDirection, direction));
 
                     case WEST:
-                        return new Tile(TileSnakeBody.NORTH_TO_WEST);
+                        return Tile.get(TileSnakeBody.NORTH_TO_WEST);
                 }
 
             case EAST:
                 switch (direction) {
                     case NORTH:
-                        return new Tile(TileSnakeBody.EAST_TO_NORTH);
+                        return Tile.get(TileSnakeBody.EAST_TO_NORTH);
 
                     case EAST:
-                        return new Tile(TileSnakeBody.EAST);
+                        return Tile.get(TileSnakeBody.EAST);
 
                     case SOUTH:
-                        return new Tile(TileSnakeBody.EAST_TO_SOUTH);
+                        return Tile.get(TileSnakeBody.EAST_TO_SOUTH);
 
                     case WEST:
                         throw new IllegalArgumentException(buildBadNeckMessage(currentDirection, direction));
@@ -221,28 +276,28 @@ public class Snake {
                         throw new IllegalArgumentException(buildBadNeckMessage(currentDirection, direction));
 
                     case EAST:
-                        return new Tile(TileSnakeBody.SOUTH_TO_EAST);
+                        return Tile.get(TileSnakeBody.SOUTH_TO_EAST);
 
                     case SOUTH:
-                        return new Tile(TileSnakeBody.SOUTH);
+                        return Tile.get(TileSnakeBody.SOUTH);
 
                     case WEST:
-                        return new Tile(TileSnakeBody.SOUTH_TO_WEST);
+                        return Tile.get(TileSnakeBody.SOUTH_TO_WEST);
                 }
 
             case WEST:
                 switch (direction) {
                     case NORTH:
-                        return new Tile(TileSnakeBody.WEST_TO_NORTH);
+                        return Tile.get(TileSnakeBody.WEST_TO_NORTH);
 
                     case EAST:
                         throw new IllegalArgumentException(buildBadNeckMessage(currentDirection, direction));
 
                     case SOUTH:
-                        return new Tile(TileSnakeBody.WEST_TO_SOUTH);
+                        return Tile.get(TileSnakeBody.WEST_TO_SOUTH);
 
                     case WEST:
-                        return new Tile(TileSnakeBody.WEST);
+                        return Tile.get(TileSnakeBody.WEST);
                 }
 
         }
@@ -260,16 +315,16 @@ public class Snake {
         switch (tailDirection) {
 
             case NORTH:
-                return new Tile(TileSnakeTail.NORTH);
+                return Tile.get(TileSnakeTail.NORTH);
 
             case EAST:
-                return new Tile(TileSnakeTail.EAST);
+                return Tile.get(TileSnakeTail.EAST);
 
             case SOUTH:
-                return new Tile(TileSnakeTail.SOUTH);
+                return Tile.get(TileSnakeTail.SOUTH);
 
             case WEST:
-                return new Tile(TileSnakeTail.WEST);
+                return Tile.get(TileSnakeTail.WEST);
 
         }
         return null;
@@ -290,10 +345,16 @@ public class Snake {
     /**
      * @return the underlying list of tile locations
      */
+    synchronized
     public TileLocationList getTileLocations() {
         return snakeState.getTileLocations();
     }
 
+    /**
+     * validate the snake state, checking for continuity and no self overlap
+     * @return String describing errors, zero length implies no failure
+     */
+    synchronized
     public String validateState() {
         return getSnakeState().validateTileLocations();
     }

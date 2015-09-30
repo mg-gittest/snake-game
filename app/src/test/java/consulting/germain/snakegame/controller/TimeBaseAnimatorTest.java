@@ -15,16 +15,17 @@ import consulting.germain.snakegame.model.Settings;
 import consulting.germain.snakegame.model.TileLocation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by mark_local on 22/09/2015.
- * Uses TimeBase to test animation on separate thread
+ * Uses TimeBaseAnimator to test animation on separate thread
  */
 public class TimeBaseAnimatorTest {
 
     private long                  timeInterval;
-    private TimeBase              timeBase;
+    private TimeBaseAnimator timeBaseAnimator;
     private SynchronousTimeSource timeSource;
     private Animator              target;
 
@@ -32,13 +33,13 @@ public class TimeBaseAnimatorTest {
     public void setUp() throws Exception {
         timeInterval = Settings.timebaseStartMillis;
         timeSource = new SynchronousTimeSource();
-        timeBase = new TimeBase(timeSource);
-        target = timeBase.getAnimator();
+        timeBaseAnimator = new TimeBaseAnimator(timeSource);
+        target = timeBaseAnimator.getAnimator();
     }
 
     @Test
     public void testAnimatorTimeSource() throws Exception {
-        assertEquals(timeSource, target.getTimeSource());
+        assertTrue(timeSource == target.getTimeSource());
     }
 
     @Test
@@ -54,6 +55,15 @@ public class TimeBaseAnimatorTest {
     @Test
     public void testTimeInterval() throws Exception {
         assertEquals(timeInterval, target.getStepTimeIntervalMillis());
+    }
+
+    @Test
+    public void testIsFinished() throws Exception {
+        assertFalse(target.isFinished());
+        target.setStepTimeIntervalMillis(10);
+        target.requestStop();
+        TimeUnit.MILLISECONDS.sleep(100); // allow time for threadpool to start
+        assertTrue(target.isFinished());
     }
 
     @Test

@@ -31,6 +31,10 @@ public class Animator implements Runnable {
     /**
      * flag
      */
+    private boolean started          = false;
+    /**
+     * flag
+     */
     private boolean finished         = false;
     /**
      * last recorded animation time
@@ -88,11 +92,11 @@ public class Animator implements Runnable {
      */
     synchronized
     private long advanceAnimation() throws Exception {
-        lastStepTime = timeSource.currentTimeMillis();
+        long stepTime = timeSource.currentTimeMillis();
         ++stepCount;
-        snake.move(snakeDirectionControl);
+        snake.move();
         // TODO: collision detection, prize detection, and lots more
-        return lastStepTime;
+        return stepTime;
     }
 
     /**
@@ -116,35 +120,16 @@ public class Animator implements Runnable {
     }
 
     /**
-     * initialise the animation, package access to allow testing
+     * initialise the animation
      *
      * @return lastStepTime
      */
-    synchronized long initialiseAnimation() {
+    synchronized
+    private long initialiseAnimation() {
         this.snake = new Snake(SnakeStateFactory.createDefault());
         lastStepTime = timeSource.currentTimeMillis();
+        started = true;
         return lastStepTime;
-    }
-
-    /**
-     * @return current step count, test method
-     */
-    int getStepCount() {
-        return stepCount;
-    }
-
-    /**
-     * @return snakeDirection, test method
-     */
-    SnakeDirection getSnakeDirection() {
-        return snake.getHeadDirection();
-    }
-
-    /**
-     * @return current control diretion, test method
-     */
-    SnakeDirection getSnakeDirectionControl() {
-        return snakeDirectionControl;
     }
 
     /**
@@ -200,5 +185,42 @@ public class Animator implements Runnable {
      */
     public TimeSource getTimeSource() {
         return timeSource;
+    }
+
+    /**
+     * @return current step count, test method
+     */
+    int getStepCount() {
+        return stepCount;
+    }
+
+    /**
+     * @return true if animation has started, test method
+     */
+    boolean isStarted() {
+        return started;
+    }
+
+    /**
+     * @return snakeDirection, test method
+     */
+    SnakeDirection getSnakeDirection() {
+        return snake.getHeadDirection();
+    }
+
+    /**
+     * @return current control diretion, test method
+     */
+    SnakeDirection getSnakeDirectionControl() {
+        return snakeDirectionControl;
+    }
+
+    /**
+     * provide test access to initialisation
+     *
+     * @return last step time
+     */
+    long testAnimationInit() {
+        return initialiseAnimation();
     }
 }

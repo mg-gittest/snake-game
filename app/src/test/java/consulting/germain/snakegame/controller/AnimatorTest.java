@@ -38,11 +38,6 @@ public class AnimatorTest {
     }
 
     @Test
-    public void testGetSnake() throws Exception {
-        assertNull(target.getSnake());
-    }
-
-    @Test
     public void testGetStepCount() throws Exception {
         assertEquals(0, target.getStepCount());
     }
@@ -93,12 +88,14 @@ public class AnimatorTest {
         long expectedTime = target.getLastStepTime() + 100;
         timeSource.set(expectedTime);
         assertNull(target.getSnake());
+        assertFalse(target.isStarted());
 
-        long lastStepTime = target.initialiseAnimation();
+        long lastStepTime = target.testAnimationInit();
 
         assertNotNull(target.getSnake());
         assertEquals(lastStepTime, target.getLastStepTime());
         assertEquals(expectedTime, lastStepTime);
+        assertTrue(target.isStarted());
     }
 
 

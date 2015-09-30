@@ -40,15 +40,6 @@ public class SnakeState {
     }
 
     /**
-     * copy ctor
-     *
-     * @param that will not validate tile locations, as assume the previous instance has already done so.
-     */
-    public SnakeState(SnakeState that) {
-        this(that.tileLocations, false);
-    }
-
-    /**
      * private common constructor that can choose to validate before setting final variable
      *
      * @param tileLocations         list of tile locations

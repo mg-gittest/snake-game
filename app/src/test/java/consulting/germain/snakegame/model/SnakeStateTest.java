@@ -117,7 +117,7 @@ public class SnakeStateTest {
 
         // establish a new head direction
         Location headLocation = headTileLocation.getLocation();
-        Tile newHeadTile = new Tile(TileSnakeHead.SOUTH);
+        Tile newHeadTile = Tile.get(TileSnakeHead.SOUTH);
         assertNotEquals("direction check", newHeadTile.getDirectionTo(), headTileLocation.getTile()
                 .getDirectionTo());
 
@@ -179,10 +179,10 @@ public class SnakeStateTest {
         Location loc3 = new Location(loc0.getX(), loc0.getY() - 1);
         Location loc4 = new Location(loc0.getX(), loc0.getY());
 
-        Tile t1 = new Tile(TileSnakeBody.SOUTH_TO_EAST);
-        Tile t2 = new Tile(TileSnakeBody.WEST_TO_SOUTH);
-        Tile t3 = new Tile(TileSnakeBody.NORTH_TO_WEST);
-        Tile t4 = new Tile(TileSnakeBody.EAST_TO_NORTH);
+        Tile t1 = Tile.get(TileSnakeBody.SOUTH_TO_EAST);
+        Tile t2 = Tile.get(TileSnakeBody.WEST_TO_SOUTH);
+        Tile t3 = Tile.get(TileSnakeBody.NORTH_TO_WEST);
+        Tile t4 = Tile.get(TileSnakeBody.EAST_TO_NORTH);
 
         TileLocation tLoc1 = new TileLocation(loc1, t1);
         TileLocation tLoc2 = new TileLocation(loc2, t2);
