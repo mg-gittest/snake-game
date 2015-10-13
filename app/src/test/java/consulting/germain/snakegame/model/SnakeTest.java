@@ -27,6 +27,8 @@ public class SnakeTest {
     @Before
     public void setup() {
         target = new Snake(SnakeStateFactory.createDefault());
+        assertEquals(target.getLength(), target.getAndClearUpdatedTileLocations().size());
+        assertEquals(0, target.getAndClearUpdatedTileLocations().size());
     }
 
     @Test
@@ -74,24 +76,41 @@ public class SnakeTest {
     @Test
     public void testMove() throws Exception {
         SnakeDirection headDirection = target.getHeadDirection();
-        TileLocation currentHeadLocation = target.getHeadTileLocation();
-        TileLocation currentTailLocation = target.getTailTileLocation();
+        TileLocation oldHeadLocation = target.getHeadTileLocation();
+        TileLocation oldTailLocation = target.getTailTileLocation();
 
         Location expectedHead =
-                currentHeadLocation.getLocation().getProjectedLocation(headDirection);
+                oldHeadLocation.getLocation().getProjectedLocation(headDirection);
         Location expectedTail =
-                currentTailLocation.getLocation().getProjectedLocation(headDirection);
+                oldTailLocation.getLocation().getProjectedLocation(headDirection);
 
         target.move(headDirection);
 
-        TileLocation actualHeadLocation = target.getHeadTileLocation();
-        TileLocation actualTailLocation = target.getTailTileLocation();
+        TileLocation newHeadLocation = target.getHeadTileLocation();
+        TileLocation newTailLocation = target.getTailTileLocation();
 
-        assertEquals("head", expectedHead, actualHeadLocation.getLocation());
-        assertEquals("tail", expectedTail, actualTailLocation.getLocation());
+        assertEquals("head", expectedHead, newHeadLocation.getLocation());
+        assertEquals("tail", expectedTail, newTailLocation.getLocation());
 
         String msg = target.validateState();
         assertEquals(msg, 0, msg.length());
+
+        TileLocationList deleted = target.getAndClearDeletedTileLocations();
+        TileLocationList updated = target.getAndClearUpdatedTileLocations();
+
+        assertEquals(1, deleted.size());
+        assertEquals(3, updated.size());
+
+        assertTrue(newTailLocation.sameLocation(updated.getLast()));
+        assertTrue(oldTailLocation.sameLocation(deleted.getLast()));
+
+        if (updated.get(0).sameLocation(oldHeadLocation)) {
+            assertTrue(updated.get(1).sameLocation(newHeadLocation));
+        } else {
+            assertTrue(updated.get(0).sameLocation(newHeadLocation));
+            assertTrue(updated.get(1).sameLocation(oldHeadLocation));
+        }
+
     }
 
     //TODO need negative tests for move and grow
@@ -100,24 +119,30 @@ public class SnakeTest {
     public void testGrowCurrentDir() throws Exception {
 
         SnakeDirection headDirection = target.getHeadDirection();
-        TileLocation currentLocation = target.getHeadTileLocation();
+        TileLocation oldHeadLocation = target.getHeadTileLocation();
+
         TileLocation newHeadLocation = target.growHead(headDirection);
 
-        assertTrue("adjacent", currentLocation.isAdjacentLocation(newHeadLocation));
+        assertTrue("adjacent", oldHeadLocation.isAdjacentLocation(newHeadLocation));
+
+        Location expectedLocation =
+                oldHeadLocation.getLocation().getProjectedLocation(headDirection);
+        assertEquals("location", expectedLocation, newHeadLocation.getLocation());
+
+        Tile expectedTile = oldHeadLocation.getTile();
+        assertEquals("tile", expectedTile, newHeadLocation.getTile());
 
         String msg = target.validateState();
         assertEquals(msg, 0, msg.length());
 
-        Location expectedLocation =
-                currentLocation.getLocation().getProjectedLocation(headDirection);
-        assertEquals("location", expectedLocation, newHeadLocation.getLocation());
+        TileLocationList deleted = target.getAndClearDeletedTileLocations();
+        TileLocationList updated = target.getAndClearUpdatedTileLocations();
 
-        Tile expectedTile = currentLocation.getTile();
-        assertEquals("tile", expectedTile, newHeadLocation.getTile());
+        assertEquals(0, deleted.size());
+        assertEquals(2, updated.size());
 
-        msg = target.validateState();
-        assertEquals(msg, 0, msg.length());
-
+        assertTrue(updated.containsSameLocation(oldHeadLocation));
+        assertTrue(updated.containsSameLocation(newHeadLocation));
     }
 
     @Test
@@ -141,6 +166,17 @@ public class SnakeTest {
         assertEquals("tailLocation", expectedTail, newTailLocation.getLocation());
         assertEquals("tail tile", oldTailLocation.getTile(), newTailLocation.getTile());
 
+        TileLocationList deleted = target.getAndClearDeletedTileLocations();
+        TileLocationList updated = target.getAndClearUpdatedTileLocations();
+
+        assertEquals(1, deleted.size());
+        assertEquals(1, updated.size());
+
+        assertTrue(deleted.containsSameLocation(oldTailLocation));
+        assertTrue(updated.containsSameLocation(newTailLocation));
+
+        String msg = target.validateState();
+        assertEquals(msg, 0, msg.length());
     }
 
     @Test

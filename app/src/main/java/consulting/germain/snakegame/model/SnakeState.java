@@ -4,6 +4,9 @@
 
 package consulting.germain.snakegame.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TileType;
 
@@ -187,4 +190,11 @@ public class SnakeState {
         return getTailTileLocation().getTile().getDirectionTo();
     }
 
+    public List<Location> getLocations() {
+        List<Location> locations = new ArrayList<>(length());
+        for (TileLocation tl : tileLocations) {
+            locations.add(tl.getLocation());
+        }
+        return locations;
+    }
 }

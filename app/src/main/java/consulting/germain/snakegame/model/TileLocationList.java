@@ -4,7 +4,6 @@
 
 package consulting.germain.snakegame.model;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -26,10 +25,22 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
      */
     public boolean intersects(final TileLocationList targetList) {
         for (TileLocation target : targetList.list) {
-            for (TileLocation local : list) {
-                if (local.sameLocation(target)) {
-                    return true;
-                }
+            if (containsSameLocation(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * examine a TileLocation to see if it has same location as any in the list
+     * @param check what to check
+     * @return true if there is the same location in the list
+     */
+    public boolean containsSameLocation(final TileLocation check) {
+        for (TileLocation target : list) {
+            if (target.sameLocation(check)) {
+                return true;
             }
         }
         return false;
@@ -38,12 +49,11 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
     /**
      * Adds the objects in the specified Collection to this {@code LinkedList}.
      *
-     * @param collection the collection of objects.
-     * @return {@code true} if this {@code LinkedList} is modified,
-     * {@code false} otherwise.
+     * @param that the TileLocationList to add from.
+     * @return {@code true} if this list is modified, {@code false} otherwise.
      */
-    public boolean addAll(Collection<? extends TileLocation> collection) {
-        return list.addAll(collection);
+    public boolean addAll(TileLocationList that) {
+        return list.addAll(that.list);
     }
 
     /**
@@ -200,11 +210,11 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
      * has a specific format. It is enclosed by square brackets ("[]"). Elements
      * are separated by ', ' (comma and space).
      *
+
      * @return the string representation of this {@code Collection}.
      */
     @Override
     public String toString() {
         return list.toString();
     }
-
 }

@@ -41,6 +41,8 @@ public class Snake {
      */
     public Snake(SnakeState startState) {
         this.snakeState = startState;
+        // mark all locations as updated
+        this.updatedTileLocations.addAll(snakeState.getTileLocations());
     }
 
     /**
@@ -84,7 +86,7 @@ public class Snake {
      * @return list of locations that have been updated by snake changes since last call
      */
     synchronized
-    public TileLocationList clearUpdatedTileLocations() {
+    public TileLocationList getAndClearUpdatedTileLocations() {
         TileLocationList ret = updatedTileLocations;
         updatedTileLocations = new TileLocationList();
         return ret;
@@ -96,7 +98,7 @@ public class Snake {
      * @return list of locations that have been deleted by snake changes since last call
      */
     synchronized
-    public TileLocationList clearDeletedTileLocations() {
+    public TileLocationList getAndClearDeletedTileLocations() {
         TileLocationList ret = deletedTileLocations;
         deletedTileLocations = new TileLocationList();
         return ret;
@@ -154,7 +156,7 @@ public class Snake {
 
         TileLocationList list = getTileLocations();
         TileLocation oldTail = list.removeLast(); // get rid of old tail
-        deletedTileLocations.addLast(oldTail);
+        deletedTileLocations.addLast(oldTail); // record the deletion
 
         // remove last body segment, keep ref so we can build tail in same location
         TileLocation lastBody = list.removeLast();
@@ -164,6 +166,7 @@ public class Snake {
         // set location to match the removed body section and add the new tail
         TileLocation tailTileLocation = new TileLocation(lastBody.getLocation(), tailTile);
         list.addLast(tailTileLocation);
+        updatedTileLocations.addLast(tailTileLocation);
 
         String msg = getSnakeState().validateTileLocations();
         if (msg.length() > 0) {
@@ -195,6 +198,10 @@ public class Snake {
         list.removeFirst();
         list.addFirst(neckTileLocation);
         list.addFirst(headTileLocation);
+
+        /** record the updated tile locations */
+        updatedTileLocations.addLast(neckTileLocation);
+        updatedTileLocations.addLast(headTileLocation);
 
         String msg = getSnakeState().validateTileLocations();
         if (msg.length() > 0) {

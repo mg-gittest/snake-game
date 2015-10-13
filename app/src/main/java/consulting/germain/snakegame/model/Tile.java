@@ -23,14 +23,43 @@ import consulting.germain.snakegame.enums.TileType;
  * expect multiple instances of most tiles
  */
 public class Tile {
+
+    /**
+     * for factory
+     */
     private static Map<TilePrize, Tile>     prizeTileMap = new HashMap<>();
+    /**
+     * for factory
+     */
     private static Map<TileSnakeHead, Tile> headTileMap  = new HashMap<>();
+    /**
+     * for factory
+     */
     private static Map<TileSnakeBody, Tile> bodyTileMap  = new HashMap<>();
+    /**
+     * for factory
+     */
     private static Map<TileSnakeTail, Tile> tailTileMap  = new HashMap<>();
-    private final TileType tileType;
-    private final String   description;
-    private final int      drawableId;
+
+    /**
+     * tile type
+     */
+    private final TileType       tileType;
+    /**
+     * helps toString
+     */
+    private final String         description;
+    /**
+     * the drawble to be used
+     */
+    private final int            drawableId;
+    /**
+     * where to connect to
+     */
     private final SnakeDirection directionTo;
+    /**
+     * where to connect from
+     */
     private final SnakeDirection directionFrom;
 
     /**
@@ -274,22 +303,37 @@ public class Tile {
         return ret;
     }
 
+    /**
+     * @return type of the tile (Prize, head .... )
+     */
     public TileType getTileType() {
         return tileType;
     }
 
+    /**
+     * @return helper for toString
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @return drawable to use
+     */
     public int getDrawableId() {
         return drawableId;
     }
 
+    /**
+     * @return where this tile connects to
+     */
     public SnakeDirection getDirectionTo() {
         return directionTo;
     }
 
+    /**
+     * @return where this tile connects from
+     */
     public SnakeDirection getDirectionFrom() {
         return directionFrom;
     }
@@ -321,7 +365,7 @@ public class Tile {
     public String toString() {
         return "Tile{" +
                 "tileType=" + tileType +
-                ", drawableId=" + drawableId +
+                ", description=" + description +
                 '}';
     }
 

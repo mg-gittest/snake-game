@@ -56,9 +56,9 @@ public class TimeBaseAnimator {
     }
 
     /**
-     * @return animator, test method
+     * @return animator
      */
-    Animator getAnimator() {
+    public Animator getAnimator() {
         return animator;
     }
 }
