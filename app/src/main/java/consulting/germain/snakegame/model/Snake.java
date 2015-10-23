@@ -195,9 +195,9 @@ public class Snake {
         TileLocation headTileLocation = new TileLocation(headLocation, headTile);
 
         TileLocationList list = getTileLocations();
-        list.removeFirst();
-        list.addFirst(neckTileLocation);
-        list.addFirst(headTileLocation);
+        list.removeFirst(); // remove head
+        list.addFirst(neckTileLocation); // replace head with neck
+        list.addFirst(headTileLocation); // add head
 
         /** record the updated tile locations */
         updatedTileLocations.addLast(neckTileLocation);

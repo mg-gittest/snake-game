@@ -11,6 +11,14 @@ package consulting.germain.snakegame.model;
  */
 public class TileLocation {
     /**
+     * the difference in X coordinate if we wrap around X
+     */
+    private static final int wrapX = Limits.maxXcoord - Limits.minXcoord;
+    /**
+     * the difference in Y coordinate if we wrap around Y
+     */
+    private static final int wrapY = Limits.maxYcoord - Limits.minYcoord;
+    /**
      * location of the tile
      */
     private final Location location;
@@ -88,6 +96,7 @@ public class TileLocation {
 
     /**
      * compare this location to another, and return true if they differ by exactly 1 in X or Y
+     * or are wrapping around the edge
      *
      * @param that other location to consider
      * @return true if directly adjacent, but not coincident
@@ -100,12 +109,17 @@ public class TileLocation {
         switch (diffX) {
             case +1: // drop through intended
             case -1:
+            case +wrapX:
+            case -wrapX:
                 // off by one in X, so require Y to be identical
                 return diffY == 0;
 
             case 0:
                 // X is identical require Y to be off by one
-                return diffY == 1 || diffY == -1;
+                return diffY == 1
+                        || diffY == -1
+                        || diffY == wrapY
+                        || diffY == -wrapY;
 
             default:
                 // neither off by exactly one

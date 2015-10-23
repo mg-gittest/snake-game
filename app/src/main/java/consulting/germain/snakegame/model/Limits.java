@@ -23,8 +23,8 @@ public class Limits {
     public static final String minXcoordFail = "X coordinate below minimum: " + minXcoord;
     public static final String minYcoordFail = "Y coordinate below minimum: " + minYcoord;
 
-    public static final int maxXcoord = 255;
-    public static final int maxYcoord = 255;
+    public static final int maxXcoord = 39;
+    public static final int maxYcoord = 39;
 
     public static final String maxXcoordFail = "X coordinate above maximium: " + maxXcoord;
     public static final String maxYcoordFail = "Y coordinate above maximium: " + maxYcoord;
