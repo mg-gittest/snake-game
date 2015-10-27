@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import consulting.germain.snakegame.controller.SynchronousTimeSource;
 import consulting.germain.snakegame.controller.TimeBaseAnimator;
 import consulting.germain.snakegame.controller.TimeSource;
+import consulting.germain.snakegame.model.Limits;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -46,17 +47,18 @@ public class TileViewTest {
 
     @Test
     public void testGetXCount() throws Exception {
-        assertEquals(-1, target.getXCount());
+        assertEquals(Limits.tileCountX, target.getXCount());
     }
 
     @Test
     public void testGetYCount() throws Exception {
-        assertEquals(-1, target.getYCount());
+        assertEquals(Limits.tileCountY, target.getYCount());
     }
 
     @Test
     public void testGetTileSize() throws Exception {
-        assertEquals(TileView.DEFAULT_TILE_SIZE, target.getTileSize());
+        // true on construction until onSizechanged is called
+        assertEquals(-1, target.getTileSize());
     }
 
     @Test
@@ -83,16 +85,16 @@ public class TileViewTest {
     @Test
     public void testOnSizeChange() throws Exception {
 
-        int defSize = TileView.DEFAULT_TILE_SIZE;
-        int expectXcount = 30;
-        int expectYcount = 31;
+        int expectXcount = Limits.tileCountX;
+        int expectYcount = Limits.tileCountY;
         int expectCount = Math.min(expectXcount, expectYcount);
 
-        int expectXoffset = 3 + ((expectXcount - expectCount) * (defSize / 2));
-        int expectYoffset = 7 + ((expectYcount - expectCount) * (defSize / 2));
+        int expectXoffset = 3;
+        int expectYoffset = 7;
+        int expectedTileSize = 30;
 
-        int w = (expectCount * defSize) + (2 * expectXoffset);
-        int h = (expectCount * defSize) + (2 * expectYoffset);
+        int w = (expectCount * expectedTileSize) + (2 * expectXoffset);
+        int h = (expectCount * expectedTileSize) + (2 * expectYoffset);
 
         int oldh = -1;
         int oldw = -1;

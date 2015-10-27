@@ -29,7 +29,10 @@ public class Limits {
     public static final String maxXcoordFail = "X coordinate above maximium: " + maxXcoord;
     public static final String maxYcoordFail = "Y coordinate above maximium: " + maxYcoord;
 
-    public static final int maxMoveY = maxYcoord - minYcoord - 1;
     public static final int maxMoveX = maxXcoord - minXcoord - 1;
+    public static final int maxMoveY = maxYcoord - minYcoord - 1;
+
+    public static final int tileCountX = maxXcoord - minXcoord + 1;
+    public static final int tileCountY = maxYcoord - minYcoord + 1;
 
 }

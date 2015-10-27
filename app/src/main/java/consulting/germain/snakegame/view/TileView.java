@@ -19,6 +19,7 @@ import java.util.Map;
 import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.controller.Animator;
 import consulting.germain.snakegame.controller.TimeBaseAnimator;
+import consulting.germain.snakegame.model.Limits;
 import consulting.germain.snakegame.model.Snake;
 import consulting.germain.snakegame.model.Tile;
 import consulting.germain.snakegame.model.TileLocation;
@@ -33,33 +34,29 @@ import consulting.germain.snakegame.model.TileLocationList;
 public class TileView extends View {
 
     /**
-     * default size of a tile in dip (tile assumed square)
-     */
-    static final  int   DEFAULT_TILE_SIZE = 30;
-    /**
      * A Paint for painting
      */
-    private final Paint paint             = new Paint();
+    private final Paint paint      = new Paint();
     /**
-     * view width in tiles
+     * view width in tiles, assume square tiles and square field
      */
-    private       int   xTileCount        = -1;
+    private final int   xTileCount = Limits.tileCountX;
     /**
-     * view height in tiles
+     * view height in tiles, assume square tiles and square field
      */
-    private       int   yTileCount        = -1;
+    private final int   yTileCount = Limits.tileCountY;
     /**
      * dip offset to allow side border when size does not fit perfectly in width
      */
-    private       int   xOffset           = -1;
+    private       int   xOffset    = -1;
     /**
      * dip offset to allow top border when size does not fit perfectly in height
      */
-    private       int   yOffset           = -1;
+    private       int   yOffset    = -1;
     /**
      * tile size in dip (tile assumed square)
      */
-    private       int   tileSize          = DEFAULT_TILE_SIZE;
+    private       int   tileSize   = -1;
     /**
      * Animation being drawn
      */
@@ -157,14 +154,9 @@ public class TileView extends View {
     @SuppressWarnings("SuspiciousNameCombination")
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        xTileCount = (int) Math.floor(w / tileSize);
-        yTileCount = (int) Math.floor(h / tileSize);
-        // render as a square in the middle of available area
-        if (xTileCount > yTileCount) {
-            xTileCount = yTileCount;
-        } else if (yTileCount > xTileCount) {
-            yTileCount = xTileCount;
-        }
+        // calculate the pixels per tile to get the required number of square tile on screen.
+        final int minDim = Math.min(w, h);
+        tileSize = minDim / xTileCount;
 
         xOffset = ((w - (tileSize * xTileCount)) / 2);
         yOffset = ((h - (tileSize * yTileCount)) / 2);

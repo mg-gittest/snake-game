@@ -55,7 +55,7 @@ public class Location {
     }
 
     /**
-     * project location after one move in given direction, roll behaviour from Settings
+     * project location after one move in given direction, roll if pass edge
      *
      * @param snakeDirection    which way to move
      * @return the projected positon with those movements
@@ -65,7 +65,7 @@ public class Location {
     }
 
     /**
-     * project location after number of moves in given direction, roll behaviour from Settings
+     * project location after number of moves in given direction, roll if pass edge
      *
      * @param numberMoves       how many moves, if < 1 then don't move
      * @param snakeDirection    which way to move
