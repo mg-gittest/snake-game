@@ -4,6 +4,8 @@
 
 package consulting.germain.snakegame.controller;
 
+import android.os.Bundle;
+
 import java.util.concurrent.TimeUnit;
 
 import consulting.germain.snakegame.enums.SnakeDirection;
@@ -223,4 +225,87 @@ public class Animator implements Runnable {
     long testAnimationInit() {
         return initialiseAnimation();
     }
+
+    /**
+     * restore the animation state from the supplied bundle
+     *
+     * @param map Bundle to read state from
+     */
+    synchronized
+    public void restoreState(Bundle map) {
+        StateBundler bundler = new StateBundler();
+        bundler.restore(map);
+    }
+
+    /**
+     * save the relevant parts of the current state into the bundle
+     *
+     * @param map Bundle to save to
+     */
+    synchronized
+    public void saveState(Bundle map) {
+        StateBundler bundler = new StateBundler();
+        bundler.save(map);
+    }
+
+    /**
+     * assists in mapping state in and out of a Bundle
+     */
+    private class StateBundler {
+
+        private final static String key      = "Animator.";
+        private final static String keyRR    = key + "RR";
+        private final static String keyS     = key + "keyS";
+        private final static String keyF     = key + "keyF";
+        private final static String keyLST   = key + "keyLST";
+        private final static String keySTIM  = key + "keySTIM";
+        private final static String keySC    = key + "keySC";
+        private final static String keySnake = key + "keySnake";
+
+        /**
+         * save the relevant parts of the current state into the bundle
+         *
+         * @param map Bundle to save to
+         */
+        public void save(Bundle map) {
+            if (map == null) {
+                return;
+            }
+            map.putBoolean(keyRR, runningRequested);
+            map.putBoolean(keyS, started);
+            map.putBoolean(keyF, finished);
+
+            map.putLong(keyLST, lastStepTime);
+            map.putLong(keySTIM, stepTimeIntervalMillis);
+
+            map.putInt(keySC, stepCount);
+
+            Bundle snakeBundle = new Bundle(snake.getLength());
+            snake.getSnakeState().saveState(snakeBundle);
+            map.putBundle(keySnake, snakeBundle);
+        }
+
+        /**
+         * restore the animation state from the supplied bundle
+         *
+         * @param map Bundle to read state from
+         */
+        public void restore(Bundle map) {
+            if (map == null) {
+                initialiseAnimation();
+                return;
+            }
+            runningRequested = map.getBoolean(keyRR);
+            started = map.getBoolean(keyS);
+            finished = map.getBoolean(keyF);
+
+            lastStepTime = map.getLong(keyLST);
+            stepTimeIntervalMillis = map.getLong(keySTIM);
+
+            stepCount = map.getInt(keySC);
+
+            Bundle snakeBundle = map.getBundle(keySnake);
+            snake.getSnakeState().restoreState(snakeBundle);
+        }
+    }  // private class StateBundler
 }

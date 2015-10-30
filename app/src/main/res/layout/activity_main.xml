@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015. Germain Consulting, subject to the GPL3 licence
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:weightSum="100">
+
+    <consulting.germain.snakegame.view.TileView
+        android:id="@+id/tileview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <consulting.germain.snakegame.view.ControlView
+        android:id="@+id/controlview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="Layout"
+            android:textColor="#ff8888ff"
+            android:textSize="24sp"
+            android:visibility="visible"
+            />
+    </RelativeLayout>
+</FrameLayout>

@@ -4,6 +4,8 @@
 
 package consulting.germain.snakegame.model;
 
+import android.os.Bundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,5 +198,23 @@ public class SnakeState {
             locations.add(tl.getLocation());
         }
         return locations;
+    }
+
+    /**
+     * restore internal state
+     *
+     * @param bundle to restore from
+     */
+    public void restoreState(Bundle bundle) {
+        tileLocations.restoreState(bundle);
+    }
+
+    /**
+     * save internal state
+     *
+     * @param bundle where to save the state
+     */
+    public void saveState(Bundle bundle) {
+        tileLocations.saveState(bundle);
     }
 }

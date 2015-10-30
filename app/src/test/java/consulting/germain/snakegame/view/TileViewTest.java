@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import consulting.germain.snakegame.controller.SynchronousTimeSource;
 import consulting.germain.snakegame.controller.TimeBaseAnimator;
 import consulting.germain.snakegame.controller.TimeSource;
+import consulting.germain.snakegame.enums.GameState;
 import consulting.germain.snakegame.model.Limits;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -105,5 +106,14 @@ public class TileViewTest {
         collector.checkThat(target.getYCount(), is(expectCount));
         collector.checkThat(target.getXOffset(), is(expectXoffset));
         collector.checkThat(target.getYOffset(), is(expectYoffset));
+    }
+
+    @Test
+    public void testEnterState() throws Exception {
+        for (GameState state : GameState.values()) {
+            target.setGameState(state);
+            assertEquals(state.toString(), state, target.getGameState());
+        }
+
     }
 }

@@ -4,9 +4,13 @@
 
 package consulting.germain.snakegame.model;
 
+import android.os.Bundle;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+
+import consulting.germain.snakegame.enums.TileType;
 
 /**
  * Created by mark_local on 18/09/2015.
@@ -147,6 +151,7 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
         return list.size();
     }
 
+
     /**
      * Returns an {@link Iterator} for the elements in this TileLocation.
      *
@@ -217,4 +222,82 @@ public class TileLocationList implements java.lang.Iterable<TileLocation> {
     public String toString() {
         return list.toString();
     }
+
+    /**
+     * restore internal state
+     *
+     * @param bundle to restore from
+     */
+    public void restoreState(Bundle bundle) {
+        StateBundler bundler = new StateBundler();
+        bundler.restore(bundle);
+    }
+
+    /**
+     * save internal state
+     *
+     * @param bundle where to save the state
+     */
+    public void saveState(Bundle bundle) {
+        StateBundler bundler = new StateBundler();
+        bundler.save(bundle);
+    }
+
+    /**
+     * assists in mapping state in and out of a Bundle
+     */
+    private class StateBundler {
+        private final static String keyB = "TileLocationList.";
+        private final static String keyS = ".";
+        private final static String keyX = "X";
+        private final static String keyY = "Y";
+        private final static String keyN = "N";
+        private final static String keyT = "T";
+
+        /**
+         * save the relevant parts of the current state into the bundle
+         *
+         * @param map Bundle to save to
+         */
+        public void save(Bundle map) {
+            if (map == null) {
+                return;
+            }
+            for (int idx = 0; idx < list.size(); ++idx) {
+                TileLocation tl = list.get(idx);
+                String key = keyB + idx + keyS;
+                map.putInt(key + keyX, tl.getX());
+                map.putInt(key + keyY, tl.getY());
+                map.putString(key + keyN, tl.getTile().getName());
+                map.putString(key + keyT, tl.getTile().getTileType().name());
+            }
+        }
+
+        /**
+         * restore the animation state from the supplied bundle
+         *
+         * @param map Bundle to read state from, assumes all entries are for the list
+         */
+        public void restore(Bundle map) {
+            list.clear();
+
+            if (map == null) {
+                return;
+            }
+
+            // load state from the supplied bundle, in index order
+            for (int idx = 0; idx < map.size(); ++idx) {
+                String key = keyB + idx + keyS;
+                int x = map.getInt(key + keyX);
+                int y = map.getInt(key + keyY);
+                String name = map.getString(key + keyN);
+                String type = map.getString(key + keyT);
+
+                Tile tile = Tile.get(TileType.valueOf(type), name);
+                TileLocation tl = new TileLocation(new Location(x, y), tile);
+                list.add(tl);
+            }
+        }
+    } // private class StateBundler
+
 }

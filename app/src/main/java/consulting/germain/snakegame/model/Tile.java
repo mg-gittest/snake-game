@@ -46,6 +46,10 @@ public class Tile {
      */
     private final TileType       tileType;
     /**
+     * name within the tile type
+     */
+    private final String         name;
+    /**
      * helps toString
      */
     private final String         description;
@@ -70,6 +74,7 @@ public class Tile {
     private Tile(final TilePrize prize) {
 
         this.tileType = TileType.PRIZE;
+        this.name = prize.name();
         this.description = tileType.toString() + ":" + prize.toString();
         this.directionFrom = SnakeDirection.NORTH; // meaningless here, but need something
         this.directionTo = SnakeDirection.NORTH; // meaningless here, but need something
@@ -104,6 +109,7 @@ public class Tile {
     private Tile(final TileSnakeBody body) {
 
         this.tileType = TileType.SNAKE_BODY;
+        this.name = body.name();
         this.description = tileType.toString() + ":" + body.toString();
 
         switch (body) {
@@ -182,6 +188,7 @@ public class Tile {
     private Tile(final TileSnakeHead head) {
 
         this.tileType = TileType.SNAKE_HEAD;
+        this.name = head.name();
         this.description = tileType.toString() + ":" + head.toString();
 
         switch (head) {
@@ -218,6 +225,7 @@ public class Tile {
     private Tile(final TileSnakeTail tail) {
 
         this.tileType = TileType.SNAKE_TAIL;
+        this.name = tail.name();
         this.description = tileType.toString() + ":" + tail.toString();
 
         switch (tail) {
@@ -304,6 +312,29 @@ public class Tile {
     }
 
     /**
+     * factory from type and name
+     * @param type tile type
+     * @param name name of the tile within type
+     * @return relevant tile
+     */
+    public static Tile get(final TileType type, final String name) {
+        switch (type) {
+            case PRIZE:
+                return get(TilePrize.valueOf(name));
+
+            case SNAKE_HEAD:
+                return get(TileSnakeHead.valueOf(name));
+
+            case SNAKE_BODY:
+                return get(TileSnakeBody.valueOf(name));
+
+            case SNAKE_TAIL:
+                return get(TileSnakeTail.valueOf(name));
+        }
+        return null;
+    }
+
+    /**
      * @return type of the tile (Prize, head .... )
      */
     public TileType getTileType() {
@@ -369,4 +400,10 @@ public class Tile {
                 '}';
     }
 
+    /**
+     * @return the name of the tile enum within its type
+     */
+    public String getName() {
+        return name;
+    }
 }

@@ -10,8 +10,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Map;
 import consulting.germain.snakegame.R;
 import consulting.germain.snakegame.controller.Animator;
 import consulting.germain.snakegame.controller.TimeBaseAnimator;
+import consulting.germain.snakegame.enums.GameState;
 import consulting.germain.snakegame.model.Limits;
 import consulting.germain.snakegame.model.Snake;
 import consulting.germain.snakegame.model.Tile;
@@ -67,6 +70,13 @@ public class TileView extends View {
     private Map<Integer, Bitmap> bitMaps;
 
     /**
+     * statusText: text shows to the user in some run states
+     */
+    private TextView statusText;
+
+    private GameState gameState;
+
+    /**
      * constructor
      *
      * @param context The Context the view is running in, through which it can
@@ -100,6 +110,7 @@ public class TileView extends View {
         super(context);
         this.animator = animator;
         this.bitMaps = bitmaps;
+        this.gameState = GameState.LOADING;
     }
 
     /**
@@ -252,6 +263,15 @@ public class TileView extends View {
         return bitmap;
     }
 
+    /**
+     * attach status text view
+     *
+     * @param statusText view to attach
+     */
+    public void setStatusText(TextView statusText) {
+        this.statusText = statusText;
+    }
+
     @Override
     public String toString() {
         return "TileView{" +
@@ -259,5 +279,72 @@ public class TileView extends View {
                 ", xTileCount=" + xTileCount +
                 ", yTileCount=" + yTileCount +
                 "} " + super.toString();
+    }
+
+    /**
+     * @return current game state
+     */
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    /**
+     * @param newGameState state to set
+     */
+    public void setGameState(GameState newGameState) {
+        if (this.gameState != newGameState) {
+            enterState(newGameState);
+        }
+    }
+
+    /**
+     * @return the current status message
+     */
+    public String getStatusMessage() {
+        return (String) statusText.getText();
+    }
+
+    private void enterState(GameState newGameState) {
+        if (statusText != null) {
+            switch (newGameState) {
+                case LOADING:
+                    statusText.setVisibility(View.VISIBLE);
+                    statusText.setText(R.string.game_loading);
+                    break;
+
+                case READY:
+                    statusText.setVisibility(View.VISIBLE);
+                    statusText.setText(R.string.game_ready);
+                    break;
+
+                case RUNNING:
+                    statusText.setVisibility(View.INVISIBLE);
+                    statusText.setText(R.string.game_running);
+                    break;
+
+                case PAUSE:
+                    statusText.setVisibility(View.VISIBLE);
+                    statusText.setText(R.string.game_paused);
+                    break;
+
+                case LOST:
+                    statusText.setVisibility(View.INVISIBLE);
+                    statusText.setText(R.string.game_paused);
+                    break;
+            }
+        }
+
+        this.gameState = newGameState;
+    }
+
+    public void restoreState(Bundle map) {
+        this.animator.restoreState(map);
+    }
+
+    public Bundle saveState(Bundle map) {
+
+        this.animator.saveState(map);
+
+        return map;
     }
 }

@@ -43,16 +43,6 @@ public class TileViewTest {
     }
 
     @Test
-    public void testGetxOffset() throws Exception {
-        target.getxOffset();
-    }
-
-    @Test
-    public void testGetyOffset() throws Exception {
-        target.getyOffset();
-    }
-
-    @Test
     public void testGetAnimator() throws Exception {
         target.getAnimator();
     }

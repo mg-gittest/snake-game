@@ -4,6 +4,8 @@
 
 package consulting.germain.snakegame.model;
 
+import android.os.Bundle;
+
 import consulting.germain.snakegame.enums.SnakeDirection;
 import consulting.germain.snakegame.enums.TileSnakeBody;
 import consulting.germain.snakegame.enums.TileSnakeHead;
@@ -365,5 +367,91 @@ public class Snake {
     public String validateState() {
         return getSnakeState().validateTileLocations();
     }
+
+    synchronized
+    /**
+     * restore internal state
+     * @param bundle to restore from
+     */
+    public void restoreState(Bundle bundle) {
+        StateBundler bundler = new StateBundler();
+        bundler.restore(bundle);
+    }
+
+    /**
+     * save internal state
+     *
+     * @param bundle where to save the state
+     */
+    public void saveState(Bundle bundle) {
+        StateBundler bundler = new StateBundler();
+        bundler.save(bundle);
+    }
+
+    /**
+     * assists in mapping state in and out of a Bundle
+     */
+    private class StateBundler {
+
+        private final static String key   = "Snake.";
+        private final static String keySS = key + "SS";
+        private final static String keyU  = key + "U";
+        private final static String keyD  = key + "D";
+
+        /**
+         * save the relevant parts of the current state into the bundle
+         *
+         * @param map Bundle to save to
+         */
+        public void save(Bundle map) {
+            if (map == null) {
+                return;
+            }
+            Bundle ssBundle = new Bundle();
+            snakeState.saveState(ssBundle);
+            map.putBundle(keySS, ssBundle);
+
+            Bundle uBundle = new Bundle();
+            updatedTileLocations.saveState(uBundle);
+            map.putBundle(keyU, uBundle);
+
+            Bundle dBundle = new Bundle();
+            deletedTileLocations.saveState(dBundle);
+            map.putBundle(keyD, dBundle);
+        }
+
+        /**
+         * restore the animation state from the supplied bundle
+         *
+         * @param map Bundle to read state from
+         */
+        public void restore(Bundle map) {
+            if (map == null) {
+                return;
+            }
+
+            Bundle ssBundle = map.getBundle(keySS);
+            if (ssBundle != null) {
+                snakeState.restoreState(ssBundle);
+            } else {
+                // we have a null input to set to default state
+                snakeState = SnakeStateFactory.createDefault();
+            }
+
+            Bundle uBundle = map.getBundle(keyU);
+            if (uBundle != null) {
+                updatedTileLocations.restoreState(uBundle);
+            } else {
+                updatedTileLocations = new TileLocationList();
+            }
+
+            Bundle dBundle = map.getBundle(keyD);
+            if (dBundle != null) {
+                deletedTileLocations.restoreState(dBundle);
+            } else {
+                deletedTileLocations = new TileLocationList();
+            }
+        }
+    } // private class StateBundler
 
 }
