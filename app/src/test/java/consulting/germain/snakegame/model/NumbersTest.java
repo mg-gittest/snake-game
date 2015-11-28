@@ -55,22 +55,7 @@ public class NumbersTest extends TestCase {
 
     private static Integer[] buildBigArray() {
 
-        Integer[] ret = new Integer[bigLength];
-        Integer neg = -Integer.MAX_VALUE;
-        Integer pos = +Integer.MAX_VALUE;
-
-        int sum = 0;
-        for (int idx = 0; idx < max; ++idx) {
-            int val = idx + 1;
-            ret[idx] = val;
-            sum += val;
-        }
-        ret[max] = -sum;
-
-        for (int idx = max + 1; idx < bigLength - 1; idx += 2) {
-            ret[idx] = neg;
-            ret[idx + 1] = pos;
-        }
+        Integer[] ret = {-1, 3, -4, 5, 1, -6, 2, 1};
 
         return ret;
     }
@@ -78,15 +63,15 @@ public class NumbersTest extends TestCase {
     @Parameterized.Parameters
     public static List data() {
         return Arrays.asList(new Object[][]{
-                        {-1, empty, "empty"},
-                        {1, zero, "zero"},
+ /*                       {-1, empty, "empty"},
+                        {0, zero, "zero"},
                         {-1, one, "one"},
                         {5, pyramid, "pyramid"},
                         {10, ramp, "ramp"},
                         {1, bigPos, "bigPos"},
                         {2, bigRange, "bigRange"},
-                        {right.length, right, "right"},
-                        {1 + max, bigArray, "bigArray"}
+                        {right.length, right, "right"}, */
+                        {3, bigArray, "bigArray"}
                 }
         );
     }
@@ -96,4 +81,12 @@ public class NumbersTest extends TestCase {
         int actual = target.findMid(ara);
         assertEquals(msg, expected, actual);
     }
+
+    @Test
+    public void testSolution() throws Exception {
+        int actual = target.solution(ara);
+        assertEquals(msg, expected, actual);
+    }
+
+
 }
