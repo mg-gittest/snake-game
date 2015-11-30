@@ -23,14 +23,15 @@ public class NumbersTest extends TestCase {
     private static final Integer[] empty     = {};
     private static final Integer[] zero      = {0};
     private static final Integer[] one       = {1};
-    private static final Integer[] pyramid   = {0, 1, 2, 3, 4, 4, 3, 2, 1, 0};
-    private static final Integer[] ramp      = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 55};
-    private static final Integer[] right     = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -55};
-    private static final Integer[] bigPos    = {Integer.MAX_VALUE, Integer.MAX_VALUE};
-    private static final Integer[] bigRange  = {Integer.MIN_VALUE, Integer.MAX_VALUE, -1};
-    private static final int       max       = 7; // must be odd
-    private static final int       bigLength = 10; // must be even and > (max + 2)
+    private static final Integer[] pyramid  = {1, 2, 3, 4, 3, 2, 1, 0};
+    private static final Integer[] ramp     = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 45};
+    private static final Integer[] right    = {1, 2, 3, 4, 5, 6, 7, 8, 9, -45, 10};
+    private static final Integer[] left     = {100, 1, 2, 3, 4, 5, 6, 7, 8, 9, -45};
+    private static final Integer[] bigPos   =
+            {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
+    private static final Integer[] bigRange = {Integer.MIN_VALUE, Integer.MAX_VALUE, 26, -1};
     private static final Integer[] bigArray  = buildBigArray();
+
     private final int[]   ara;
     private final int     expected;
     private final Numbers target;
@@ -63,23 +64,18 @@ public class NumbersTest extends TestCase {
     @Parameterized.Parameters
     public static List data() {
         return Arrays.asList(new Object[][]{
- /*                       {-1, empty, "empty"},
+                        {-1, empty, "empty"},
                         {0, zero, "zero"},
-                        {-1, one, "one"},
-                        {5, pyramid, "pyramid"},
-                        {10, ramp, "ramp"},
+                        {0, one, "one"},
+                        {3, pyramid, "pyramid"},
+                        {9, ramp, "ramp"},
                         {1, bigPos, "bigPos"},
                         {2, bigRange, "bigRange"},
-                        {right.length, right, "right"}, */
-                        {3, bigArray, "bigArray"}
+                        {right.length - 1, right, "right"},
+                        {0, left, "left"},
+                        {1, bigArray, "bigArray"}
                 }
         );
-    }
-
-    @Test
-    public void testFindMidOne() throws Exception {
-        int actual = target.findMid(ara);
-        assertEquals(msg, expected, actual);
     }
 
     @Test

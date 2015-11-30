@@ -22,46 +22,6 @@ public class Numbers {
         return tenBig;
     }
 
-    public int findMid(int[] ara) {
-
-        final int length = ara.length;
-        BigInteger[] sumLeft = new BigInteger[length];
-        BigInteger[] sumRight = new BigInteger[length];
-
-        BigInteger sum = BigInteger.ZERO;
-        for (int idx = 0; idx < length; ++idx) {
-            sum = sum.add(BigInteger.valueOf(ara[idx]));
-            sumLeft[idx] = sum;
-        }
-
-        sum = BigInteger.ZERO;
-        for (int idx = length - 1; idx >= 0; --idx) {
-            sum = sum.add(BigInteger.valueOf(ara[idx]));
-            sumRight[idx] = sum;
-        }
-
-        if (length < 1) {
-            return -1;
-        }
-
-        for (int idx = 0; idx < length - 1; ++idx) {
-            BigInteger left = sumLeft[idx];
-            BigInteger right = sumRight[idx + 1];
-            if (left.equals(right)) {
-                return idx + 1;
-            }
-        }
-
-        if (sumLeft[length - 1].equals(BigInteger.ZERO)) {
-            return length;
-        }
-        if (sumRight[0].equals(BigInteger.ZERO)) {
-            return 0;
-        }
-
-        return -1;
-    }
-
     public int solution(int[] A) {
         // write your code in Java SE 8
         final int length = A.length;
@@ -69,42 +29,29 @@ public class Numbers {
         if (length < 1) {
             return -1;
         }
-
-        long[] sumToLeft = new long[length];
-        long[] sumToRight = new long[length];
-
-        // set up ends
-        sumToLeft[0] = 0;
-        sumToRight[length - 1] = 0;
-
-        long sum = 0;
-        for (int idx = 0; idx < length - 1; idx++) {
-            sum += A[idx];
-            sumToLeft[idx + 1] = sum;
-        }
-
-        sum = 0;
-        for (int idx = length - 1; idx > 0; idx--) {
-            sum += A[idx];
-            sumToRight[idx - 1] = sum;
-        }
-
-        // look for a match
-        for (int idx = length - 2; idx > 0; idx--) {
-            final long left = sumToLeft[idx];
-            final long rigth = sumToRight[idx];
-            if (left == rigth) {
-                return idx;
-            }
-        }
-
-        // deal with end cases
-        if (sumToLeft[length - 1] == 0) {
-            return length - 1;
-        }
-        if (sumToRight[0] == 0) {
+        if (length == 1) {
             return 0;
         }
+
+        long sumToRight = 0;
+        long sumToLeft = 0;
+
+        // establish full sum
+        for (int val : A) {
+            sumToRight += val;
+        }
+
+        // walk array, subtract current val from sum to right compare to sum to left,
+        // then add val to sum to left to prepare for next loop
+        for (int idx = 0; idx < length; idx++) {
+            final int val = A[idx];
+            sumToRight -= val;
+            if (sumToLeft == sumToRight) {
+                return idx;
+            }
+            sumToLeft += val;
+        }
+
 
         // no match so return appropriately
         return -1;
